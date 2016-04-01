@@ -1,0 +1,38 @@
+
+\section{Parallelizing}
+\label{sec:parallelizing}
+
+\textit{TODO: Talk about breaking this problem down into a thread based concurrent solution.}
+
+Obviously we would need to break this problem into pieces if we are to run it effectively on a
+parallel machine. One obvious way of doing this could work pretty well.
+
+Suppose the objects in the universe were partitioned into equal sized subsets with each node
+given authority of one subset. For example, if we use $10$ nodes and simulate a universe of
+$1000$ objects then each node would be authoritative over $1000/10 = 100$ objects.
+
+The computation would proceed in two phases. The first phase would be the communication phase.
+During that phase each node informs all other nodes the current positions of its objects. During
+this phase no computations are done but the network connecting the nodes would be heavily used.
+Following the communication phase would be the computational phase. During that phase each node
+computes updated position information for the objects it has been assigned. When all nodes have
+completed their updates, the master clock moves forward one time step and the process repeats
+with a new communication phase.
+
+It is interesting to consider the running time of this system. If the number of nodes is fixed
+the time required for the communication phase is $O(n)$ where n is the number of objects in the
+universe. For example, if the number of objects were to double, the size of each message in the
+communication phase would also double and thus the communication time would double. However, the
+computational phase runs in $O(n^2)$. If the number of objects doubles, each node will have
+twice as many objects to consider and for each object, twice as many gravitational interactions
+to compute.
+
+Because the computational phase runs in $O(n^2)$ and the communication phase runs in $O(n)$
+there will be some $n$, perhaps large, where more time is spent computing than communicating.
+Thus the cluster's efficiency increase as $n$ increases. It is a happy circumstance that a large
+$n$ also gives a more accurate simulation. Of course a large $n$ will also require a lot of time
+to get results. It would be interesting to experiment with the value of $n$ to find out, for
+example, at what point the cluster begins to run efficiently.
+
+\textit{TODO: Also consider giving each node authority over a particular region of space.
+  Consider the effect of ignoring ``distant'' objects.}

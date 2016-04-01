@@ -1,0 +1,31 @@
+#
+# Makefile for the Solar System Simulator project (Serial version)
+#
+
+CC=clang
+CFLAGS=-c -O -emit-llvm -I../Common -I../../Spica/C
+LD=llvm-ld
+LDFLAGS=-native -L/usr/lib/i386-linux-gnu -lpthread
+SOURCES=main.c ../Common/Initialize.c Object.c
+OBJECTS=$(SOURCES:.c=.bc)
+EXECUTABLE=Serial
+
+%.bc:	%.c
+	$(CC) $(CFLAGS) $< -o $@
+
+$(EXECUTABLE):	$(OBJECTS)
+	$(LD) $(LDFLAGS) $(OBJECTS) ../../Spica/C/SpicaC.bc -o $@
+
+# File Dependencies
+###################
+
+main.bc:	main.c ../Common/global.h ../Common/Initialize.h
+
+../Common/Initialize.bc:	../Common/Initialize.c ../Common/global.h ../Common/Initialize.h 
+
+Object.bc:	Object.c ../Common/global.h ../Common/Initialize.h
+
+# Additional Rules
+##################
+clean:
+	rm -f *.o *.bc *.s *.ll *~ $(EXECUTABLE)

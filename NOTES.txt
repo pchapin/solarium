@@ -1,0 +1,19 @@
+
+Using the VTC cluster...
+    Intel Xeon W3520: 64 bit quad core with hyperthreading, clocked at 2.67 GHz, 8 MiB L3 cache.
+
+n =          500           1000           2000
+=====================================================
+Serial   :  63.4s (----)  253.9s (----)  1009.s (----)
+Parallel :  16.2s (3.91)   60.9s (4.17)  244.7s (4.12)
+OpenMP   :  15.8s (4.01)   61.1s (4.16)  243.7s (4.14)
+BarnesHut:  58.0s (1.09)  164.6s (1.54)  436.7s (2.31)
+MPI      : 557.7s (0.11)  714.1s (0.36)  889.1s (1.14)
+
+The MPI program on n= 492 with 12 processes over 3 nodes ( 41 objects per process).
+The MPI program on n= 996 with 12 processes over 3 nodes ( 83 objects per process).
+The MPI program on n=1992 with 12 processes over 3 nodes (166 objects per process).
+
+Using n = 2000 on BarnesHut + OpenMP      :  98.3s (4.44 over single threaded).
+Using n = 1992 on BarnesHut + OpenMP + MPI: 274.6s (1.59 over single threaded).
+Using n = 7998 on BarnesHut + OpenMP + MPI: 1055.s

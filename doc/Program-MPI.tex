@@ -1,0 +1,126 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FILE   : Program-MPI.tex
+% AUTHOR : (C) Copyright 2012 by Peter C. Chapin
+% SUBJECT: An MPI programming exercise.
+%
+% Send comments or bug reports to:
+%
+%       Peter C. Chapin
+%       Computer Information Systems Department
+%       Vermont Technical College
+%       Randolph Center, VT 05061
+%       PChapin@vtc.vsc.edu
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%+++++++++++++++++++++++++++++++++
+% Preamble and global declarations
+%+++++++++++++++++++++++++++++++++
+\documentclass{article}
+
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{url}
+\usepackage{hyperref}
+
+% The following are settings for the listings package.
+\lstset{language=C,
+        basicstyle=\small,
+        stringstyle=\ttfamily,
+        commentstyle=\ttfamily,
+        xleftmargin=0.25in,
+        showstringspaces=false}
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1.75ex plus0.5ex minus0.5ex}
+
+\newcommand{\filename}[1]{\texttt{#1}}
+
+%++++++++++++++++++++
+% The document itself
+%++++++++++++++++++++
+\begin{document}
+
+%-----------------------
+% Title page information
+%-----------------------
+\title{MPI}
+\author{Peter C. Chapin}
+\date{October 31, 2012}
+\maketitle
+
+\section{Introduction}
+\label{sec:introduction}
+
+In this exercise you will implement a parallel version of the Barnes-Hut n-body simulator using
+MPI to execute your implementation on a cluster. A serial version of Barnes-Hut is included in
+the repository for you to use as a reference. Much of that code and its supporting libraries can
+be used as-is.
+
+Recall that the Barnes-Hut algorithm consists of three primary steps.
+\begin{enumerate}
+\item An octree is constructed to group objects according to their locations in space.
+\item The interior nodes of the octree are decorated to summarize information about all the
+  objects in the contained region. Specifically each node contains the total mass of all
+  contained objects and their overall center of mass.
+\item For each object in the universe the total force on that object is computed by traversing
+  the octree. For regions of space ``far away'' from the object under consideration, the effect
+  of all objects in such regions is computed using the total mass and center of mass
+  information.
+\end{enumerate}
+
+In general Barnes-Hut runs in $O(n\,\log n)$ time instead of the $O(n^2)$ time required for the
+basic ``all pairs'' algorithm (where $n$ is the number of bodies involved in the simulation). It
+should also be noted that Barnes-Hut introduces some inaccuracy; summarizing all the masses in a
+region is only accurate if the region is infinitely far away. This means Barnes-Hut is
+adjustable. By changing what ``far away'' means in the program one can trade off speed for
+accuracy. Determining the most appropriate trade off is outside the scope of this exercise.
+
+To further accelerate the computation, in this exercise you are to modify the serial Barnes-Hut
+implementation so that it can be done in parallel on a cluster of machines using MPI. When doing
+this it is important to be mindful of the communication costs incurred. Since the Barnes-Hut
+algorithm is $O(n\,\log n)$ you want the asymptotic costs of communication to be no more than
+$O(n\,\log n)$ and preferably less (such as $O(n)$). That way when the problem scales up the
+overhead of communication will not overwhelm the actual computation time.
+
+\section{Program Structure}
+\label{sec:program-structure}
+
+One obvious way to parallelize this computation is to start by using MPI to broadcast the
+current object dynamics information to all nodes. Each node then builds the whole octree locally
+but computes forces and new dynamics information on only a subset of the objects as according to
+the node's rank. The results can then be gathered back at the root node in preparation for the
+next time step.
+
+This approach is relatively easy to implement but it does mean that every node is building the
+same octree (in parallel) and thus there is no speed-up available during that phase of the
+computation. Although octree construction and force computations are both $O(n\,\log n)$
+intuitively one would expect the force computations to require a greater fraction of
+computation time because of the more extensive floating point work required. So while this
+simple approach may be worthwhile the fact that both the serial portion and parallel portion of
+the program are $O(n\,\log n)$ means that Amdahl's Law will prevent the program from scaling to
+extremely high speed-ups as $n$ becomes large\footnote{Do you see why?}.
+
+\section{Implementation and Analysis}
+\label{sec:implementation-analysis}
+
+Do the following steps
+\begin{enumerate}
+\item Analyze the serial version of Barnes-Hut to determine the percentage of time expended in
+  the octree construction phase vs the force computation and dynamics update phase. To do this
+  you may need to make use of timers as defined in \texttt{Timer.h} in the Common library.
+  Notice that those timers can be stopped and started repeatedly, accumulating an overall time.
+  You may need to adjust the number of objects in the problem to make the recorded times long
+  enough to measure properly\footnote{What is the resolution on the timers defined by
+    \texttt{Timer.h}?}.
+
+\item Parallelize Barnes-Hut using MPI as described above and measure how long each node spends
+  in the force computation and dynamics update phase. What is the overall speed-up of the
+  parallel version (you might try it with a number of different nodes).
+
+\item MPI allows you to run multiple instances of a single threaded program on a node to take
+  advantage of multiple cores on that node. Is there an advantage to using multiple threads, for
+  example, with OpenMP, within the program? Try it and compare the speed up you can obtain with
+  a hybrid MPI/multi-threaded solution.
+\end{enumerate}
+
+\end{document}
