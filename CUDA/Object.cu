@@ -16,26 +16,62 @@ Object         *object_array;
 ObjectDynamics *current_dynamics;
 ObjectDynamics *next_dynamics;
 
+#define BLOCK_SIZE 256
 
 __global__ void do_calculations(
     Object *object_array, ObjectDynamics *current_dynamics, ObjectDynamics *next_dynamics )
 {
-    int object_i = blockIdx.x*blockDim.x + threadIdx.x;
+    int object_i = blockIdx.x * blockDim.x + threadIdx.x;
 
     // For each object...
     if( object_i < OBJECT_COUNT ) {
         Vector3 total_force = { 0.0F, 0.0F, 0.0F };
 
-        // Consider interactions with all other objects...
-        for( int object_j = 0; object_j < OBJECT_COUNT; ++object_j ) {
-            if( object_i == object_j ) continue;
+        const Vector3 pos_i = current_dynamics[object_i].position;
+        const float mass_i = object_array[object_i].mass;
 
-            Vector3 displacement = cuda_v3_subtract(
-                current_dynamics[object_j].position, current_dynamics[object_i].position );
+        __shared__ Vector3 shared_position[BLOCK_SIZE];
+        __shared__ float shared_mass[BLOCK_SIZE];
+
+        int blocks = (OBJECT_COUNT + BLOCK_SIZE - 1) / BLOCK_SIZE;
+        for (unsigned block_i = 0; block_i < blocks-1; block_i++) {
+            shared_position[threadIdx.x] = current_dynamics[block_i * blockDim.x + threadIdx.x].position;
+            shared_mass[threadIdx.x] = object_array[block_i * blockDim.x + threadIdx.x].mass;
+
+            __syncthreads();
+
+            // Consider interactions with all other objects...
+            for (int object_j = 0; object_j < BLOCK_SIZE; ++object_j) {
+                if( object_i == block_i * blockDim.x + object_j ) continue;
+
+                Vector3 displacement = cuda_v3_subtract(shared_position[object_j], pos_i );
+                const float distance_squared = cuda_magnitude_squared( displacement );
+                const float distance = sqrt( distance_squared );
+                const float t1 = mass_i / distance;
+                const float t2 = shared_mass[object_j] / distance;
+                //float force_magnitude =
+                //    ( G * object_array[object_i].mass * object_array[object_j].mass ) / distance_squared;
+                const float force_magnitude = ( G * t1 ) * t2;
+                const Vector3 force = cuda_v3_multiply( (force_magnitude / distance ), displacement );
+                total_force = cuda_v3_add( total_force, force );
+            }
+
+            __syncthreads();
+        }
+
+        if ((blocks-1) * blockDim.x + threadIdx.x < OBJECT_COUNT) {
+            shared_position[threadIdx.x] = current_dynamics[(blocks-1) * blockDim.x + threadIdx.x].position;
+            shared_mass[threadIdx.x] = object_array[(blocks-1) * blockDim.x + threadIdx.x].mass;
+        }
+        __syncthreads();
+        for (int object_j = 0; object_j < OBJECT_COUNT - BLOCK_SIZE * (blocks-1); ++object_j) {
+            if( object_i == (blocks-1) * blockDim.x + object_j ) continue;
+
+            Vector3 displacement = cuda_v3_subtract(shared_position[object_j], pos_i );
             float distance_squared = cuda_magnitude_squared( displacement );
             float distance = sqrt( distance_squared );
-            float t1 = object_array[object_i].mass / distance;
-            float t2 = object_array[object_j].mass / distance;
+            float t1 = mass_i / distance;
+            float t2 = shared_mass[object_j] / distance;
             //float force_magnitude =
             //    ( G * object_array[object_i].mass * object_array[object_j].mass ) / distance_squared;
             float force_magnitude = ( G * t1 ) * t2;
@@ -44,11 +80,9 @@ __global__ void do_calculations(
         }
 
         // Total force on object_i is now known. Compute acceleration, velocity and position.
-        Vector3 acceleration =
-            cuda_v3_divide( total_force, object_array[object_i].mass );
+        Vector3 acceleration = cuda_v3_divide( total_force, mass_i );
 
-        Vector3 delta_v =
-            cuda_v3_multiply( TIME_STEP, acceleration );
+        Vector3 delta_v = cuda_v3_multiply( TIME_STEP, acceleration );
 
         Vector3 delta_position =
             cuda_v3_multiply( TIME_STEP, current_dynamics[object_i].velocity );
@@ -68,10 +102,9 @@ void cuda_time_step(
     ObjectDynamics *dev_current_dynamics,
     ObjectDynamics *dev_next_dynamics )
 {
-    int block_size = 256;  // Number of threads per block.
     int block_count =
-        (OBJECT_COUNT % block_size == 0) ? OBJECT_COUNT/block_size
-                                         : OBJECT_COUNT/block_size + 1;
+        (OBJECT_COUNT % BLOCK_SIZE == 0) ? OBJECT_COUNT/BLOCK_SIZE
+                                         : OBJECT_COUNT/BLOCK_SIZE + 1;
 
     // Strictly speaking we don't need to copy the current_dynamics array back and forth.
     // The computed values could be left on the device during the whole computation and copied
@@ -83,7 +116,8 @@ void cuda_time_step(
                 OBJECT_COUNT*sizeof(ObjectDynamics),
                 cudaMemcpyHostToDevice );
 
-    do_calculations<<<block_count, block_size>>>(
+    size_t size_shared = BLOCK_SIZE * (sizeof(next_dynamics[0].position) + sizeof(object_array[0].mass));
+    do_calculations<<<block_count, BLOCK_SIZE, size_shared>>>(
         dev_object_array, dev_current_dynamics, dev_next_dynamics );
 
     cudaMemcpy( current_dynamics,

@@ -3,9 +3,9 @@
 #
 
 NVCC=nvcc
-NVCFLAGS=-c -m64 -arch=sm_13 -O -I../Common -I../../Spica/C
+NVCFLAGS=-c -m64 -arch=sm_35 -O -I../Common -I../../Spica/C
 LD=nvcc
-LDFLAGS=-m64 -arch=sm_13
+LDFLAGS=-m64 -arch=sm_35
 SOURCES=main.cu Object.cu Initialize.cu
 OBJECTS=main.o Object.o Initialize.o
 EXECUTABLE=CUDA
