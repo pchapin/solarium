@@ -37,9 +37,6 @@
 			<Add option="-std=gnu99" />
 			<Add directory="../../Spica/C" />
 		</Compiler>
-		<Unit filename="Initialize.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="Initialize.h" />
 		<Unit filename="Object.c">
 			<Option compilerVar="CC" />
