@@ -22,7 +22,7 @@ static void trim_leading_whitespace( string *s )
     size_t      length;
     string      result;
 
-    string_init( &result );
+    string_construct( &result );
     while( *p && is_white( *p )) p++;
     length = string_length( s ) - ( p - start );
     string_substring( s, &result, ( p - start ), length );
@@ -37,7 +37,7 @@ static void trim_trailing_whitespace( string *s )
     size_t      length;
     string      result;
 
-    string_init( &result );
+    string_construct( &result );
 
     // TODO: It is technically undefined to step p off the front of the string.
     while( p >= start && is_white( *p )) p--;
@@ -53,7 +53,7 @@ static void remove_comments( string *s )
 
     size_t position = string_findchar( s, '#' );
     if( position != (size_t)-1 ) {
-        string_init( &result );
+        string_construct( &result );
         string_substring( s, &result, 0, position );
         string_copy( s, &result );
         string_destroy( &result );
@@ -80,9 +80,9 @@ enum ProblemFileStatus ProblemFile_initialize( ProblemFile *pf, const char *file
         return CANNOT_OPEN;
     }
 
-    string_init( &line  );
-    string_init( &name  );
-    string_init( &value );
+    string_construct( &line  );
+    string_construct( &name  );
+    string_construct( &value );
 
     while( string_readline( &line, problem_file ) != -1 ) {
         remove_comments( &line );
