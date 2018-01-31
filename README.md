@@ -6,11 +6,10 @@ This folder contains a simple solar system simulator. Essential it computes a so
 n-body problem. It is my intention for this program to one day be a useful application capable
 of realistic simulations.
 
-Most of the code is in C (perhaps with some C++). However, it is my intention to develop the
-primary Solarium application in Ada. The C code in this repository was originally developed to
-support my parallel programming class and thus demonstrates a variety of techniques and
-technologies. The main application, in contrast, will choose a single approach (or perhaps be a
-single executable that can be configured to support several related approaches).
+Most of the code is in C (perhaps with some C++). However, this repository was originally
+developed to support my parallel programming class and thus demonstrates a variety of techniques
+and technologies. The main application, in contrast, will choose a single approach (or perhaps
+be a single executable that can be configured to support several related approaches).
 
 The subfolders contain the following
 
@@ -38,4 +37,5 @@ The subfolders contain the following
 + src: The main Solarium application in Ada.
 
 Peter C. Chapin  
-PChapin@vtc.vsc.edu
+chapinp@acm.org  
+
