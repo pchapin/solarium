@@ -1,14 +1,14 @@
 #
-# Makefile for the Solar System Simulator project (Parallel version using barriers)
+# Makefile for the Solar System Simulator project (Parallel-pools version)
 #
 
 CC=gcc
-CFLAGS=-c -pthread -std=c99 -D_XOPEN_SOURCE=600 -O2 -I../Common -I../../Spica/C
+CFLAGS=-c -std=c99 -pthread -D_XOPEN_SOURCE=600 -O2 -I../Common -I../../Spica/C
 LD=gcc
 LDFLAGS=-pthread
 SOURCES=main.c Object.c
 OBJECTS=$(SOURCES:.c=.o)
-EXECUTABLE=Parallel-barriers
+EXECUTABLE=Parallel-pools
 
 %.o:	%.c
 	$(CC) $(CFLAGS) $< -o $@
@@ -19,9 +19,9 @@ $(EXECUTABLE):	$(OBJECTS)
 # File Dependencies
 ###################
 
-main.o:		main.c Object.h ../Common/Initialize.h
+main.o:		main.c Pool.h ../Common/global.h ../Common/Initialize.h
 
-Object.o:	Object.c Object.h
+Object.o:	Object.c Pool.h ../Common/global.h ../Common/Initialize.h
 
 # Additional Rules
 ##################

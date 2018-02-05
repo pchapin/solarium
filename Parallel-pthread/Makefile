@@ -3,9 +3,9 @@
 #
 
 CC=gcc
-CFLAGS=-c -std=c99 -D_XOPEN_SOURCE=600 -O2 -I../Common -I../../Spica/C
+CFLAGS=-c -std=c99 -pthread -D_XOPEN_SOURCE=600 -O2 -I../Common -I../../Spica/C
 LD=gcc
-LDFLAGS=
+LDFLAGS=-pthread
 SOURCES=main.c Object.c
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=Parallel-pthread

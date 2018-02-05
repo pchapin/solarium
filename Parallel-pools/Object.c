@@ -1,12 +1,10 @@
 /*! \file    Object.c
-    \brief   Implementation of object data arrays.
-    \author  Peter C. Chapin <PChapin@vtc.vsc.edu>
-
-*/
+ *  \brief   Implementation of object data arrays.
+ *  \author  Peter C. Chapin <pchapin@vtc.edu>
+ */
 
 #include <stdio.h>
 #include <math.h>
-#include <pthread.h>
 #include <stdlib.h>
 #ifdef __GLIBC__
 #include <sys/sysinfo.h>
@@ -14,6 +12,7 @@
 
 #include "global.h"
 #include "Initialize.h"
+#include "Pool.h"
 
 Object         *object_array;
 ObjectDynamics *current_dynamics;
@@ -72,8 +71,8 @@ void time_step( )
 
     struct Work_Unit *chunks =
         (struct Work_Unit *)malloc( processor_count * sizeof(struct Work_Unit) );
-    pthread_t *thread_IDs =
-        (pthread_t *)malloc( processor_count * sizeof(pthread_t) );
+    threadid_t *thread_IDs =
+        (threadid_t *)malloc( processor_count * sizeof(threadid_t) );
     
     // Create a thread for each CPU and set it working on its work unit.
     for( int i = 0; i < processor_count; ++i ) {
@@ -84,13 +83,13 @@ void time_step( )
             chunk->stop_index = OBJECT_COUNT;
         else
             chunk->stop_index   = ( i + 1 ) * objects_per_processor;
-        pthread_create( &thread_IDs[i], NULL, compute_next_dynamics, chunk);
+        thread_IDs[i] = ThreadPool_start( &pool, compute_next_dynamics, chunk);
     }
     
 
-    // Wait for all thread to end.
+    // Wait for all threads to end.
     for( int i = 0; i < processor_count; ++i ) {
-        pthread_join( thread_IDs[i], NULL );
+        ThreadPool_result( &pool, thread_IDs[i] );
     }
         
     // Swap the dynamics arrays.

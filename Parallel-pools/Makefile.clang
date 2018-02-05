@@ -1,5 +1,5 @@
 #
-# Makefile for the Solar System Simulator project (Parallel version with barrires)
+# Makefile for the Solar System Simulator project (Parallel-pools version)
 #
 
 CC=clang
@@ -8,7 +8,7 @@ LD=llvm-ld
 LDFLAGS=-native -L/usr/lib/i386-linux-gnu -lpthread
 SOURCES=main.c ../Common/Initialize.c Object.c
 OBJECTS=$(SOURCES:.c=.bc)
-EXECUTABLE=Parallel-barriers
+EXECUTABLE=Parallel-pools
 
 %.bc:	%.c
 	$(CC) $(CFLAGS) $< -o $@
@@ -19,9 +19,11 @@ $(EXECUTABLE):	$(OBJECTS)
 # File Dependencies
 ###################
 
-main.bc:	main.c
+main.bc:	main.c ../Common/global.h ../Common/Initialize.h
 
-Object.bc:	Object.c
+../Common/Initialize.bc:	../Common/Initialize.c ../Common/global.h ../Common/Initialize.h 
+
+Object.bc:	Object.c ../Common/global.h ../Common/Initialize.h
 
 # Additional Rules
 ##################
