@@ -1,6 +1,6 @@
 /*! \file Octree.h
  *  \brief Declarations of octrees and their operations.
- *  \author Peter C. Chapin <PChapin@vtc.vsc.edu>
+ *  \author Peter C. Chapin <pchapin@vtc.edu>
  *  \date October 22, 2012
  */
 
