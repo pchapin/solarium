@@ -1,8 +1,7 @@
 /*! \file    Object.c
-    \brief   Implementation of object data arrays.
-    \author  Peter C. Chapin <PChapin@vtc.vsc.edu>
-
-*/
+ *  \brief   Implementation of object data arrays.
+ *  \author  Peter C. Chapin <pchapin@vtc.edu>
+ */
 
 #include <stdio.h>
 #include <math.h>
@@ -32,6 +31,10 @@ void time_step( )
             double distance = sqrt( distance_squared );
             double force_magnitude =
                 ( G * object_array[object_i].mass * object_array[object_j].mass ) / distance_squared;
+
+            // The displacement (vector) divided by the distance results in a unit vector that
+            // points from object_i to object_j. Multiplying that unit vector by the force
+            // magnitude computes the force vector from object_i to object_j.
             Vector3 force = v3_multiply( (force_magnitude / distance ), displacement );
             total_force = v3_add( total_force, force );
         }

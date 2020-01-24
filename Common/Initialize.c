@@ -1,21 +1,21 @@
 /*! \file    Initialize.c
-    \brief   Implementation of initialization functions.
-    \author  Peter C. Chapin <PChapin@vtc.vsc.edu>
-
-*/
+ *  \brief   Implementation of initialization functions.
+ *  \author  Peter C. Chapin <PChapin@vtc.vsc.edu>
+ */
 
 #include <stdlib.h>
 #include "global.h"
 #include "Initialize.h"
 
+//! Return a random coordinate inside a 100.0 AU cube about the origin.
 static double random_position_coordinate( )
 {
-    // Return a coordinate inside a 100.0 AU cube about the origin.
     double fraction = (double)( rand( ) ) / RAND_MAX;
     return ( ( fraction * 100.0 ) - 50.0 ) * AU;
 }
 
 
+//! Return a random velocity that is a fraction of AVERAGE_VELOCITY.
 static double random_velocity_component( )
 {
     double fraction = (double)( rand( ) ) / RAND_MAX;
@@ -37,8 +37,10 @@ void initialize_object_arrays( )
     object_array = (Object *)malloc(OBJECT_COUNT * sizeof(Object));
 
     // The sun has ID 0.
-    object_array[0].mass = 1.98892E+30;  // Mass of the sun.
+    //object_array[0].mass = 1.98892E+30;  // Mass of the sun.
+    object_array[0].mass = 5.9722E+24;   // Mass of the Earth.
 
+    // Initialize the object array to OBJECT_COUNT Earth sized objects.
     for( int i = 1; i < OBJECT_COUNT; ++i ) {
         object_array[i].mass = 5.9722E+24;   // Mass of the Earth.
     }
@@ -54,11 +56,14 @@ void initialize_object_arrays( )
     // TODO: Use a more "random" seed?
     srand( 0 );
     for( int i = 1; i < OBJECT_COUNT; ++i ) {
+
+        // Randomly position object i.
     	temp.x = random_position_coordinate( );
     	temp.y = random_position_coordinate( );
     	temp.z = random_position_coordinate( );
     	A[i].position = temp;
 
+        // Select a random velocity for object i.
     	temp.x = random_velocity_component( );
     	temp.y = random_velocity_component( );
     	temp.z = random_velocity_component( );

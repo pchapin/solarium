@@ -1,8 +1,7 @@
 /*! \file    Object.c
-    \brief   Implementation of object data arrays.
-    \author  Peter C. Chapin <PChapin@vtc.vsc.edu>
-
-*/
+ *  \brief   Implementation of object data arrays.
+ *  \author  Peter C. Chapin <pchapin@vtc.edu>
+ */
 
 #include <stdio.h>
 #include <math.h>
@@ -19,14 +18,14 @@ Object         *object_array;
 ObjectDynamics *current_dynamics;
 ObjectDynamics *next_dynamics;
 
-struct Work_Unit {
+struct WorkUnit {
     int start_index;
     int stop_index;
 };
 
 void *compute_next_dynamics(void *arg)
 {
-    struct Work_Unit *chunk = (struct Work_Unit *)arg;
+    struct WorkUnit *chunk = (struct WorkUnit *)arg;
     
     // For each object...
     for( int object_i = chunk->start_index; object_i < chunk->stop_index; ++object_i ) {
@@ -70,21 +69,21 @@ void time_step( )
     #endif
     int objects_per_processor = OBJECT_COUNT / processor_count;
 
-    struct Work_Unit *chunks =
-        (struct Work_Unit *)malloc( processor_count * sizeof(struct Work_Unit) );
+    struct WorkUnit *chunks =
+        (struct WorkUnit *)malloc( processor_count * sizeof(struct WorkUnit) );
     pthread_t *thread_IDs =
         (pthread_t *)malloc( processor_count * sizeof(pthread_t) );
+
+    // Split the problem into chunks.
+    for( int i = 0; i < processor_count; ++i ) {
+        chunks[i].start_index = i * objects_per_processor;
+        chunks[i].stop_index = ( i + 1 ) * objects_per_processor;
+    }
+    chunks[processor_count - 1].stop_index = OBJECT_COUNT;
     
     // Create a thread for each CPU and set it working on its work unit.
     for( int i = 0; i < processor_count; ++i ) {
-        struct Work_Unit *chunk =
-            (struct Work_Unit *)malloc( sizeof( struct Work_Unit ) );
-        chunk->start_index = i * objects_per_processor;
-        if( i == processor_count - 1 )
-            chunk->stop_index = OBJECT_COUNT;
-        else
-            chunk->stop_index   = ( i + 1 ) * objects_per_processor;
-        pthread_create( &thread_IDs[i], NULL, compute_next_dynamics, chunk);
+        pthread_create( &thread_IDs[i], NULL, compute_next_dynamics, &chunks[i]);
     }
     
 
