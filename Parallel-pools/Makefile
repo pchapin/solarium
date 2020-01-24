@@ -3,7 +3,7 @@
 #
 
 CC=gcc
-CFLAGS=-c -std=c99 -pthread -D_XOPEN_SOURCE=600 -O2 -I../Common -I../../Spica/C
+CFLAGS=-c -std=c99 -pthread -D_XOPEN_SOURCE=600 -O2 -I../Common
 LD=gcc
 LDFLAGS=-pthread
 SOURCES=main.c Object.c
@@ -14,7 +14,7 @@ EXECUTABLE=Parallel-pools
 	$(CC) $(CFLAGS) $< -o $@
 
 $(EXECUTABLE):	$(OBJECTS)
-	$(LD) $(LDFLAGS) $(OBJECTS) -L../Common -L../../Spica/C -lCommon -lSpicaC -lm -o $@
+	$(LD) $(LDFLAGS) $(OBJECTS) -L../Common -lCommon -lm -o $@
 
 # File Dependencies
 ###################

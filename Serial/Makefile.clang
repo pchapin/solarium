@@ -3,7 +3,7 @@
 #
 
 CC=clang
-CFLAGS=-c -O -emit-llvm -I../Common -I../../Spica/C
+CFLAGS=-c -O -emit-llvm -I../Common
 LD=llvm-ld
 LDFLAGS=-native -L/usr/lib/i386-linux-gnu -lpthread
 SOURCES=main.c ../Common/Initialize.c Object.c
@@ -14,7 +14,7 @@ EXECUTABLE=Serial
 	$(CC) $(CFLAGS) $< -o $@
 
 $(EXECUTABLE):	$(OBJECTS)
-	$(LD) $(LDFLAGS) $(OBJECTS) ../../Spica/C/SpicaC.bc -o $@
+	$(LD) $(LDFLAGS) $(OBJECTS) ../Common/Common.bc -o $@
 
 # File Dependencies
 ###################

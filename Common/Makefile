@@ -3,10 +3,13 @@
 #
 
 CC=gcc
-CCFLAGS=-c -pthread -std=c99 -D_XOPEN_SOURCE=600 -O2 -I../../Spica/C
+CCFLAGS=-c -pthread -std=c99 -D_XOPEN_SOURCE=600 -O2
 LINK=ar
 SOURCES=Initialize.c  \
-	ProblemFile.c
+	ProblemFile.c \
+	ThreadPool.c  \
+	Timer.c       \
+	Vector3.c
 OBJECTS=$(SOURCES:.c=.o)
 LIBRARY=libCommon.a
 
@@ -24,6 +27,12 @@ $(LIBRARY):	$(OBJECTS)
 Initialize.o:	Initialize.c global.h Initialize.h
 
 ProblemFile.o:	ProblemFile.c ProblemFile.h
+
+ThreadPool.o:	ThreadPool.c
+
+Timer.o:	Timer.c environ.h
+
+Vector3.o:	Vector3.c
 
 # Additional Rules
 ##################
