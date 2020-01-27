@@ -7,6 +7,7 @@ CCFLAGS=-c -pthread -std=c99 -D_XOPEN_SOURCE=600 -O2
 LINK=ar
 SOURCES=Initialize.c  \
 	ProblemFile.c \
+	str.c         \
 	ThreadPool.c  \
 	Timer.c       \
 	Vector3.c
@@ -27,6 +28,8 @@ $(LIBRARY):	$(OBJECTS)
 Initialize.o:	Initialize.c global.h Initialize.h
 
 ProblemFile.o:	ProblemFile.c ProblemFile.h
+
+str.o:		str.c str.h
 
 ThreadPool.o:	ThreadPool.c
 
