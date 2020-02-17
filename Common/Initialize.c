@@ -37,8 +37,8 @@ void initialize_object_arrays( )
     object_array = (Object *)malloc(OBJECT_COUNT * sizeof(Object));
 
     // The sun has ID 0.
-    //object_array[0].mass = 1.98892E+30;  // Mass of the sun.
-    object_array[0].mass = 5.9722E+24;   // Mass of the Earth.
+    object_array[0].mass = 1.98892E+30;  // Mass of the sun.
+    //object_array[0].mass = 5.9722E+24;   // Mass of the Earth.
 
     // Initialize the object array to OBJECT_COUNT Earth sized objects.
     for( int i = 1; i < OBJECT_COUNT; ++i ) {
