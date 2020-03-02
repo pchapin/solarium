@@ -1,8 +1,7 @@
 /*! \file    Object.c
-    \brief   Implementation of object data arrays.
-    \author  Peter C. Chapin <PChapin@vtc.vsc.edu>
-
-*/
+ *  \brief   Implementation of object data arrays.
+ *  \author  Peter C. Chapin <pchapin@vtc.edu>
+ */
 
 #include <math.h>
 #include <stdio.h>
@@ -10,11 +9,10 @@
 
 #include "global.h"
 
-       Object         *object_array;
-       ObjectDynamics *current_dynamics;
-       ObjectDynamics *next_dynamics;
-static ObjectDynamics *A;
-static ObjectDynamics *B;
+Object         *object_array;
+ObjectDynamics *current_dynamics;
+ObjectDynamics *next_dynamics;
+
 
 void time_step( )
 {
@@ -56,6 +54,7 @@ void time_step( )
     current_dynamics     = next_dynamics;
     next_dynamics        = temp;
 }
+
 
 void dump_dynamics( )
 {

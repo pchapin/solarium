@@ -3,12 +3,11 @@
  *  \author  Peter C. Chapin <pchapin@vtc.edu>
  */
 
-#include <stdio.h>
 #include <math.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "global.h"
-#include "Initialize.h"
 
 Object         *object_array;
 ObjectDynamics *current_dynamics;

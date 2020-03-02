@@ -34,12 +34,11 @@ int main( int argc, char **argv )
     int return_code       = EXIT_SUCCESS;
 
     initialize_object_arrays( );
-    // dump_dynamics( );
     Timer_initialize( &stopwatch );
     printf( "START position\n" );
     dump_dynamics( );
     Timer_start( &stopwatch );
-    while (1) {
+    while( 1 ) {
         time_step( );
         total_steps++;
 
