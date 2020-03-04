@@ -6,6 +6,7 @@ CC=gcc
 CCFLAGS=-c -pthread -std=c99 -D_XOPEN_SOURCE=600 -O2
 LINK=ar
 SOURCES=Initialize.c  \
+	Interval.c    \
 	ProblemFile.c \
 	str.c         \
 	ThreadPool.c  \
@@ -26,6 +27,8 @@ $(LIBRARY):	$(OBJECTS)
 # Module dependencies
 
 Initialize.o:	Initialize.c global.h Initialize.h
+
+Interval.o:	Interval.c Interval.h
 
 ProblemFile.o:	ProblemFile.c ProblemFile.h
 
