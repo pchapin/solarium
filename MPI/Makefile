@@ -3,9 +3,9 @@
 #
 
 CC=mpicc
-CFLAGS=-c -std=c99 -D_XOPEN_SOURCE=600 -O2 -I../Common
+CFLAGS=-c -std=c99 -D_XOPEN_SOURCE=600 -fopenmp -O2 -I../Common
 LD=mpicc
-LDFLAGS=
+LDFLAGS=-fopenmp
 SOURCES=main.c Object.c
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=MPI
@@ -21,7 +21,7 @@ $(EXECUTABLE):	$(OBJECTS)
 
 main.o:         main.c ../Common/global.h ../Common/Initialize.h
 
-Object.o:	Object.c ../Common/global.h ../Common/Initialize.h
+Object.o:	Object.c ../Common/global.h
 
 # Additional Rules
 ##################
