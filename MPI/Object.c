@@ -19,7 +19,7 @@ ObjectDynamics *next_dynamics;
 void CPU_work_unit( int start_index, int stop_index )
 {
     // For each object...
-    //#pragma omp parallel for
+    #pragma omp parallel for
     for( int object_i = start_index; object_i < stop_index; ++object_i ) {
         Vector3 total_force = { 0.0, 0.0, 0.0 };
 

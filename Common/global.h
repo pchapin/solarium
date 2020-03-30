@@ -10,7 +10,7 @@
 #include "Vector3.h"
 
 // These constants can change the behavior of all programs that share this header.
-#define OBJECT_COUNT     1000
+#define OBJECT_COUNT     10000
 #define AU               1.49597870700E+11  // Meters per astronomical unit.
 #define AVERAGE_VELOCITY 2.9785E+3   // Meters per second (used during random initialization).
 #define G                6.673E-11   // Gravitational constant.

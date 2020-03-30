@@ -32,6 +32,7 @@ void time_step( )
     Octree_refresh_interior( &spacial_tree );
 
     // For each object...
+    #pragma omp parallel for
     for( int object_i = 0; object_i < OBJECT_COUNT; ++object_i ) {
         Vector3 total_force =
             Octree_force( &spacial_tree,

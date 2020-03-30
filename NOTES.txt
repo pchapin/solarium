@@ -1,19 +1,64 @@
 
-Using the VTC cluster...
-    Intel Xeon W3520: 64 bit quad core with hyperthreading, clocked at 2.67 GHz, 8 MiB L3 cache.
+NOTES
+=====
 
-n =          500           1000           2000
-=====================================================
-Serial   :  63.4s (----)  253.9s (----)  1009.s (----)
-Parallel :  16.2s (3.91)   60.9s (4.17)  244.7s (4.12)
-OpenMP   :  15.8s (4.01)   61.1s (4.16)  243.7s (4.14)
-BarnesHut:  58.0s (1.09)  164.6s (1.54)  436.7s (2.31)
-MPI      : 557.7s (0.11)  714.1s (0.36)  889.1s (1.14)
+The following timing measurements were made on VTC's Linux shell server, Lemuria, along with the
+VTC four node cluster. [TODO: Add technical details about the processors involved]. Note that
+the processors on Lemuria were not used at all when the cluster timings were done. In "real
+life" that would be a waste of resources; Lemuria would be treated as another cluster node.
+Actually in real life the cluster would be much larger and the resources of the master node
+would be an insignificant contribution anyway.
 
-The MPI program on n= 492 with 12 processes over 3 nodes ( 41 objects per process).
-The MPI program on n= 996 with 12 processes over 3 nodes ( 83 objects per process).
-The MPI program on n=1992 with 12 processes over 3 nodes (166 objects per process).
+With a problem size of 10,000 objects, the following timings were made:
 
-Using n = 2000 on BarnesHut + OpenMP      :  98.3s (4.44 over single threaded).
-Using n = 1992 on BarnesHut + OpenMP + MPI: 274.6s (1.59 over single threaded).
-Using n = 7998 on BarnesHut + OpenMP + MPI: 1055.s
+1. Serial               : 474.52m (p =  1; baseline)
+2. Parallel-barriers    :  60.59m (p =  8; S =  7.83)
+3. OpenMP               :  60.38m (p =  8; S =  7.86)
+4. MPI+OpenMP           :  37.74m (p = 16; S = 12.57)
+5. BarnesHut (Serial)   :  67.11m (p =  1; baseline ; S (relative to AllPairs) =  7.07)
+6. BarnesHut+OpenMP     :  10.34m (p =  8; S =  6.49; S (relative to AllPairs) = 45.89)
+7. BarnesHut+MPI+OpenMP :   ?.??
+
+In all the speed-up calculations above, the hyperthreads are ignored ('p' does not include the
+hyperthreading in the counts). This is probably reasonable since the computations are floating
+point intensive and it is likely that functional unit sharing between the hyperthreads would not
+be very effective in that case. [TODO: Confirm this].
+
+Notes
+-----
+
++ The hand coded Pthreads version, with barriers, performed essentially identically to the
+  OpenMP version. For smaller problem sizes (N = 1000) this isn't true; the OpenMP version does
+  much better. This reflects better thread management by the OpenMP implementation... lower
+  syncrhonization overhead perhaps.
+
++ Both of the runs #2 and #3 perform at near the ideal speed-up.
+
++ The MPI version did not do as well at realizing the theoretical ideal. This might be due to
+  network communication overhead(?). For smaller problem sizes (N = 1000) the MPI version
+  performed even less well, which adds evidence to that hypothesis.
+
++ The serial version of BarnesHut easily outperformed the AllPairs implementation (run #1). It's
+  not really appropriate to compute a speed-up relative to run #1 because different algorithms
+  are in use. The speed-up would be a strong function of the problem size, whereas that would
+  not be true if the algorithm was the same. When a common algorithm is used, changes in speed-up
+  with changes in N reflect other factors like overheads and/or memory access effects.
+
++ The speed-up obtained by BarnesHut+OpenMP (run #6) was less than ideal (6.49 as opposed to 8),
+  probably because of Amdahl's Law effects. The construction of the Octree in each time step is
+  done by a single thread. In fact, observing the CPU usage during run #6 showed that all
+  processes averaged around 90% utilization whereas in run #2 there were at 99%. The 10%
+  underutilization may reflect the Octree construction time.
+
+Note that, in BarnesHut, the Octree construction is O(N*log(N)) and the main computation is also
+O(N*log(N)). Thus going to a larger problem might not affect the relative balance between the
+serial and parallelizable portions of the program (meaning the overhead would remain the same).
+
+Correctness
+-----------
+
+All versions computed answers that agreed with those computed by the serial version (run #1) to
+the precision printed by the program (4 significant figures). The BarnesHut versions agree with
+each other, but they do disagree slightly with run #1. The results differ in the least
+significant figure in some cases. This is probably reflective of the fact that BarnesHut is an
+approximate algorithm that does not intend to compute an exact answer.
