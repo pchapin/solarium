@@ -49,7 +49,8 @@ static int get_octant( struct OctreeNode *overall, struct OctreeNode *particular
    if( x <  0.0 && y >= 0.0 && z >= 0.0 ) return 4;
    if( x <  0.0 && y >= 0.0 && z <  0.0 ) return 5;
    if( x <  0.0 && y <  0.0 && z >= 0.0 ) return 6;
-   if( x <  0.0 && y <  0.0 && z <  0.0 ) return 7;
+   // if( x <  0.0 && y <  0.0 && z <  0.0 )
+   return 7;
 }
 
 
