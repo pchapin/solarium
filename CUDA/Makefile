@@ -3,7 +3,7 @@
 #
 
 NVCC=nvcc
-NVCFLAGS=-c -m64 -arch=sm_35 -O -I../Common
+NVCFLAGS=-c -m64 -arch=sm_35 -O2 -I../Common
 LD=nvcc
 LDFLAGS=-m64 -arch=sm_35
 SOURCES=main.cu Object.cu Initialize.cu
@@ -17,7 +17,7 @@ EXECUTABLE=CUDA
 	$(NVCC) $(NVCFLAGS) $< -o $@
 
 $(EXECUTABLE):	$(OBJECTS)
-	$(LD) $(LDFLAGS) $(OBJECTS) -lm -o $@
+	$(LD) $(LDFLAGS) $(OBJECTS) -lm -L../Common -lCommon -o $@
 
 # File Dependencies
 ###################
