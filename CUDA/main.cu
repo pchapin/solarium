@@ -1,21 +1,21 @@
 /*! \file    main.c
-    \brief   Main program of the serial solar system simulator.
-    \author  Peter C. Chapin <PChapin@vtc.vsc.edu>
-
-LICENSE
-
-This program is free software; you can redistribute it and/or modify it under the terms of the
-GNU General Public License as published by the Free Software Foundation; either version 2 of the
-License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
-the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with this program; if
-not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-02111-1307 USA
-*/
+ *  \brief   Main program of the CUDA solar system simulator.
+ *  \author  Peter C. Chapin <pchapin@vtc.edu>
+ *
+ * LICENSE
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+ * the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program; if
+ * not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ * 02111-1307 USA
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -38,7 +38,8 @@ int main( int argc, char **argv )
     ObjectDynamics *dev_next_dynamics;      // Pointer to next dynamics array on GPU.
 
     initialize_object_arrays( );
-    // dump_dynamics( );
+    printf( "START position\n" );
+    dump_dynamics( );
     Timer_initialize( &stopwatch );
     Timer_start( &stopwatch );
 
@@ -67,13 +68,13 @@ int main( int argc, char **argv )
 
         // Print out a message after 100 steps just to give the user something to see.
         if( total_steps % 100 == 0 )
-            printf( "STEP %4lld\n", total_steps );
+            fprintf( stderr, "STEP %4lld\n", total_steps );
 
         if( total_steps % STEPS_PER_YEAR == 0 ) {
             total_years++;
             if( total_years % 10 == 0 ) {
-                printf( "Years simulated = %d\r", total_years );
-                fflush( stdout );
+                fprintf( stderr, "Years simulated = %d\r", total_years );
+                fflush( stderr );
             }
 
             // For now, stop the simulation after 1 year.
@@ -92,6 +93,7 @@ int main( int argc, char **argv )
     cudaFree( dev_next_dynamics );
 
     Timer_stop( &stopwatch );
+    printf( "\nEND position\n" );
     dump_dynamics( );
     printf( "Time elapsed = %ld milliseconds\n", Timer_time( &stopwatch ) );
 

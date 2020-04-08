@@ -1,7 +1,7 @@
 /*!
  * \file    global.h
  * \brief   Definition of contants and of object data types and arrays.
- * \author  Peter C. Chapin <PChapin@vtc.vsc.edu>
+ * \author  Peter C. Chapin <pchapin@vtc.edu>
  */
 
 #ifndef GLOBAL_H
@@ -10,12 +10,12 @@
 #include "CUDAVector3.h"
 
 // These constants can change the behavior of all programs that share this header.
-#define OBJECT_COUNT     1000
+#define OBJECT_COUNT     10000
 #define AU               1.49597870700E+11F  // Meters per astronomical unit.
 #define AVERAGE_VELOCITY 2.9785E+4F   // Meters per second (used during random initialization).
 #define G                6.673E-11F   // Gravitational constant.
 #define TIME_STEP        3.6E+03F     // Seconds in a time step (one hour).
-// The AVERAGE_VELOCITY above is the magnitude of the velocity of Earth in its orbit.
+// The AVERAGE_VELOCITY above is 1/10 the magnitude of the velocity of Earth in its orbit.
 
 //! Structure that represents the position and velocity of a particular object.
 /*!
@@ -34,10 +34,10 @@ typedef struct {
     float mass;
 } Object;
 
-// Three parallel arrays are used to hold object information. These arrays are indexed by an
-// integer object ID. The current_dynamics array contains the current position and velocity of
-// all the objects. The next_dynamics array contains the estimated position and velocity of all
-// the objects after the current time step.
+// Three arrays are used to hold object information. These arrays are indexed by an integer
+// object ID. The current_dynamics array contains the current position and velocity of all the
+// objects. The next_dynamics array contains the estimated position and velocity of all the
+// objects after the current time step. The object with object ID of zero is the sun
 //
 extern Object         *object_array;
 extern ObjectDynamics *current_dynamics;

@@ -34,9 +34,9 @@ int main( int argc, char **argv )
     int return_code       = EXIT_SUCCESS;
 
     initialize_object_arrays( );
-    Timer_initialize( &stopwatch );
     printf( "START position\n" );
     dump_dynamics( );
+    Timer_initialize( &stopwatch );
     Timer_start( &stopwatch );
     while( 1 ) {
         time_step( );
