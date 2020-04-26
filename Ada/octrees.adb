@@ -1,11 +1,11 @@
 ---------------------------------------------------------------------------
 -- FILE    : octrees.adb
 -- SUBJECT : Body of a package for handling octrees.
--- AUTHOR  : (C) Copyright 2014 by Peter C. Chapin
+-- AUTHOR  : (C) Copyright 2020 by Peter C. Chapin
 --
 -- Please send comments or bug reports to
 --
---      Peter C. Chapin <PChapin@vtc.vsc.edu>
+--      Peter C. Chapin <pchapin@vtc.edu>
 ---------------------------------------------------------------------------
 with Ada.Numerics.Generic_Elementary_Functions;
 with Ada.Unchecked_Deallocation;
@@ -65,12 +65,14 @@ package body Octrees is
             if X <  0.0 and Y >= 0.0 and Z <  0.0 then return 6; end if;
             if X <  0.0 and Y <  0.0 and Z >= 0.0 then return 7; end if;
             -- if X <  0.0 and Y <  0.0 and Z <  0.0 then return 8; end if;
-            return 8;  -- This is the only remaining possibility. Leaving this out of an if statement removes a warning.
+            return 8;  -- This is the only remaining possibility.
+                       -- Leaving this out of an if statement removes a warning.
          end Get_Octant;
 
          -- Given an overall node, return the region associated with a particular octant index.
          function Get_Region
-           (Overall : in not null Octree_Node_Access; Octant_Index : Octant_Index_Type) return Box is
+           (Overall : in not null Octree_Node_Access; Octant_Index : Octant_Index_Type) return Box
+         is
 
             Center_X, Center_Y, Center_Z : Numeric_Type;
             X_Interval : Interval     := X_Range(Overall.Region);
@@ -89,21 +91,45 @@ package body Octrees is
             Center_Z := (Upper(Z_Range(Overall.Region)) + Lower(Z_Range(Overall.Region))) / 2.0;
             case Octant_Index is
             when 1 =>
-               Subregion := Make(Make(Center_X, X_Upper ), Make(Center_Y, Y_Upper ), Make(Center_Z, Z_Upper ));
+               Subregion := Make
+                 (Make(Center_X, X_Upper ),
+                  Make(Center_Y, Y_Upper ),
+                  Make(Center_Z, Z_Upper ));
             when 2 =>
-               Subregion := Make(Make(Center_X, X_Upper ), Make(Center_Y, Y_Upper ), Make(Z_Lower,  Center_Z));
+               Subregion := Make
+                 (Make(Center_X, X_Upper ),
+                  Make(Center_Y, Y_Upper ),
+                  Make(Z_Lower,  Center_Z));
             when 3 =>
-               Subregion := Make(Make(Center_X, X_Upper ), Make(Y_Lower,  Center_Y), Make(Center_Z, Z_Upper ));
+               Subregion := Make
+                 (Make(Center_X, X_Upper ),
+                  Make(Y_Lower,  Center_Y),
+                  Make(Center_Z, Z_Upper ));
             when 4 =>
-               Subregion := Make(Make(Center_X, X_Upper ), Make(Y_Lower,  Center_Y), Make(Z_Lower,  Center_Z));
+               Subregion := Make
+                 (Make(Center_X, X_Upper ),
+                  Make(Y_Lower,  Center_Y),
+                  Make(Z_Lower,  Center_Z));
             when 5 =>
-               Subregion := Make(Make(X_Lower,  Center_X), Make(Center_Y, Y_Upper ), Make(Center_Z, Z_Upper ));
+               Subregion := Make
+                 (Make(X_Lower,  Center_X),
+                  Make(Center_Y, Y_Upper ),
+                  Make(Center_Z, Z_Upper ));
             when 6 =>
-               Subregion := Make(Make(X_Lower,  Center_X), Make(Center_Y, Y_Upper ), Make(Z_Lower,  Center_Z));
+               Subregion := Make
+                 (Make(X_Lower,  Center_X),
+                  Make(Center_Y, Y_Upper ),
+                  Make(Z_Lower,  Center_Z));
             when 7 =>
-               Subregion := Make(Make(X_Lower,  Center_X), Make(Y_Lower,  Center_Y), Make(Center_Z, Z_Upper ));
+               Subregion := Make
+                 (Make(X_Lower,  Center_X),
+                  Make(Y_Lower,  Center_Y),
+                  Make(Center_Z, Z_Upper ));
             when 8 =>
-               Subregion := Make(Make(X_Lower,  Center_X), Make(Y_Lower,  Center_Y), Make(Z_Lower,  Center_Z));
+               Subregion := Make
+                 (Make(X_Lower,  Center_X),
+                  Make(Y_Lower,  Center_Y),
+                  Make(Z_Lower,  Center_Z));
             end case;
             return Subregion;
          end Get_Region;
@@ -177,7 +203,9 @@ package body Octrees is
    end Refresh_Interior;
 
 
-   function Force(Tree : Octree; Position : Numeric_Vectors.Vector3; Mass : Mass_Type) return Numeric_Vectors.Vector3 is
+   function Force
+     (Tree : Octree; Position : Numeric_Vectors.Vector3; Mass : Mass_Type) return Numeric_Vectors.Vector3
+   is
       use type Numeric_Vectors.Vector3;
       use Numeric_Intervals;
 
@@ -186,10 +214,10 @@ package body Octrees is
       function Subtree_Force(Node : in not null Octree_Node_Access) return Numeric_Vectors.Vector3 is
          Theta            : constant := 0.5;
          Displacement     : Numeric_Vectors.Vector3;  -- Vector connecting the given mass to the node's center of mass.
-         Distance         : Numeric_Type;             -- The scalar distance between the given mass and the node's center of mass.
+         Distance         : Numeric_Type;       -- The scalar distance between the given mass and the node's center of mass.
          Distance_Squared : Numeric_Type;
-         Size_X, Size_Y, Size_Z : Numeric_Type;       -- The X, Y, and Z sizes of the node's region.
-         Size_Measure     : Numeric_Type;             -- The largest of the X, Y, and Z sizes of the node's region.
+         Size_X, Size_Y, Size_Z : Numeric_Type; -- The X, Y, and Z sizes of the node's region.
+         Size_Measure     : Numeric_Type;       -- The largest of the X, Y, and Z sizes of the node's region.
          Force_Magnitude  : Numeric_Type;
          Force            : Numeric_Vectors.Vector3 := Numeric_Vectors.Make(0.0, 0.0, 0.0);
       begin

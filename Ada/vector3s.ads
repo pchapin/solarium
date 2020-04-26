@@ -1,11 +1,11 @@
 ---------------------------------------------------------------------------
 -- FILE    : vector3s.ads
 -- SUBJECT : Specification of a package for handling three dimensional vectors.
--- AUTHOR  : (C) Copyright 2014 by Peter C. Chapin
+-- AUTHOR  : (C) Copyright 2020 by Peter C. Chapin
 --
 -- Please send comments or bug reports to
 --
---      Peter C. Chapin <PChapin@vtc.vsc.edu>
+--      Peter C. Chapin <pchapin@vtc.edu>
 ---------------------------------------------------------------------------
 
 generic
