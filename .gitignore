@@ -21,6 +21,7 @@ Common/libCommon.a
 CUDA/CUDA
 MPI/MPI
 OpenMP/OpenMP
+OpenACC/OpenACC
 Parallel-pthread/Parallel-pthread
 Parallel-barriers/Parallel-barriers
 Parallel-pools/Parallel-pools

@@ -16,10 +16,10 @@ ObjectDynamics *next_dynamics;
 
 void time_step( )
 {
-    #pragma acc enter data copyin(current_dynamics[0:OBJECT_COUNT-1])
     int object_i;
 
     // For each object...
+    #pragma acc enter data copyin(current_dynamics[0:OBJECT_COUNT])
     #pragma acc parallel loop
     for( object_i = 0; object_i < OBJECT_COUNT; ++object_i ) {
         Vector3 total_force = { 0.0, 0.0, 0.0 };
@@ -54,7 +54,7 @@ void time_step( )
     ObjectDynamics *temp = current_dynamics;
     current_dynamics     = next_dynamics;
     next_dynamics        = temp;
-    #pragma acc exit data copyout(next_dynamics[0:OBJECT_COUNT-1])
+    #pragma acc exit data copyout(next_dynamics[0:OBJECT_COUNT])
 }
 
 
