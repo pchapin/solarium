@@ -1,8 +1,7 @@
 /*! \file    ProblemFile.c
-    \brief   Implementation of an abstract data type that handles problem instance files.
-    \author  Peter C. Chapin <PChapin@vtc.vsc.edu>
-
-*/
+ *  \brief   Implementation of an abstract data type that handles problem instance files.
+ *  \author  Peter Chapin <spicacality@kelseymountain.org>
+ */
 
 #include <stdio.h>
 #include <string.h>
@@ -17,7 +16,7 @@ static int is_white( char ch )
 
 static void trim_leading_whitespace( string *s )
 {
-    const char *start = string_getcharp( s );
+    const char *start = string_get_char_p( s );
     const char *p     = start;
     size_t      length;
     string      result;
@@ -32,7 +31,7 @@ static void trim_leading_whitespace( string *s )
 
 static void trim_trailing_whitespace( string *s )
 {
-    const char *start = string_getcharp( s );
+    const char *start = string_get_char_p( s );
     const char *p     = start + string_length( s ) - 1;
     size_t      length;
     string      result;
@@ -51,7 +50,7 @@ static void remove_comments( string *s )
 {
     string result;
 
-    size_t position = string_findchar( s, '#' );
+    size_t position = string_find_char( s, '#' );
     if( position != (size_t)-1 ) {
         string_construct( &result );
         string_substring( s, &result, 0, position );
@@ -84,14 +83,14 @@ enum ProblemFileStatus ProblemFile_initialize( ProblemFile *pf, const char *file
     string_construct( &name  );
     string_construct( &value );
 
-    while( string_readline( &line, problem_file ) != -1 ) {
+    while( string_read_line( &line, problem_file ) != -1 ) {
         remove_comments( &line );
         trim_trailing_whitespace( &line );
         trim_leading_whitespace( &line );
         if( string_length( &line ) == 0 ) continue;
 
         // Break the line into 'name' and 'value' parts.
-        split_position = string_findchar( &line, '=' );
+        split_position = string_find_char( &line, '=' );
         if( split_position == (size_t)-1 ) return INVALID_FORMAT;
         string_substring( &line, &name, 0, split_position );
         string_substring(
@@ -103,19 +102,19 @@ enum ProblemFileStatus ProblemFile_initialize( ProblemFile *pf, const char *file
         trim_leading_whitespace( &value );
 
         // Make sure the Version setting is first in the file.
-        if( expecting_version && strcmp( string_getcharp( &name ), "Version" ) != 0 ) {
+        if( expecting_version && strcmp( string_get_char_p( &name ), "Version" ) != 0 ) {
             return MISSING_VERSION;
         }
-        else if( expecting_version && strcmp( string_getcharp( &name ), "Version" ) == 0 ) {
+        else if( expecting_version && strcmp( string_get_char_p( &name ), "Version" ) == 0 ) {
             expecting_version = 0;
-            if( strcmp( string_getcharp( &value ), "1" ) != 0 ) {
+            if( strcmp( string_get_char_p( &value ), "1" ) != 0 ) {
                 return UNEXPECTED_VERSION;
             }
         }
 
         // Install the setting in the settings map.
         // TODO: Implement a settings map.
-        printf( "name = %s; value = %s\n", string_getcharp( &name ), string_getcharp( &value ) );
+        printf( "name = %s; value = %s\n", string_get_char_p( &name ), string_get_char_p( &value ) );
     }
     return SUCCESS;
 }

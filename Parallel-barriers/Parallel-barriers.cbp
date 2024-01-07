@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
         <FileVersion major="1" minor="6" />
         <Project>
-                <Option title="BarnesHut" />
+                <Option title="Parallel-barriers" />
                 <Option pch_mode="2" />
                 <Option compiler="clang" />
                 <Build>
                         <Target title="Debug">
-                                <Option output="bin/Debug/BarnesHut" prefix_auto="1" extension_auto="1" />
+                                <Option output="bin/Debug/Parallel" prefix_auto="1" extension_auto="1" />
                                 <Option object_output="obj/Debug/" />
                                 <Option type="1" />
                                 <Option compiler="clang" />
@@ -19,7 +19,7 @@
                                 </Linker>
                         </Target>
                         <Target title="Release">
-                                <Option output="bin/Release/BarnesHut" prefix_auto="1" extension_auto="1" />
+                                <Option output="bin/Release/Parallel" prefix_auto="1" extension_auto="1" />
                                 <Option object_output="obj/Release/" />
                                 <Option type="1" />
                                 <Option compiler="clang" />
@@ -34,18 +34,16 @@
                 </Build>
                 <Compiler>
                         <Add option="-Wall" />
-                        <Add option="-std=gnu99" />
-                        <Add directory="../../Spica/C" />
+                        <Add option="-pthread" />
+                        <Add directory="../../SpicaC" />
                 </Compiler>
-                <Unit filename="Initialize.h" />
+                <Linker>
+                        <Add library="pthread" />
+                </Linker>
                 <Unit filename="Object.c">
                         <Option compilerVar="CC" />
                 </Unit>
                 <Unit filename="Object.h" />
-                <Unit filename="Octree.c">
-                        <Option compilerVar="CC" />
-                </Unit>
-                <Unit filename="Octree.h" />
                 <Unit filename="main.c">
                         <Option compilerVar="CC" />
                 </Unit>

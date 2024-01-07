@@ -1,8 +1,7 @@
 /*! \file    Vector3.h
-    \brief   Handling of three dimensional vectors.
-    \author  Peter C. Chapin <PChapin@vtc.vsc.edu>
-
-*/
+ *  \brief   Handling of three dimensional vectors.
+ *  \author  Peter Chapin <spicacality@kelseymountain.org>
+ */
 
 #ifndef VECTOR3_H
 #define VECTOR3_H

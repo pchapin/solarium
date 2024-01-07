@@ -1,8 +1,7 @@
 /*! \file    Timer.h
-    \brief   Interface to a simple timer abstract type.
-    \author  Peter C. Chapin <PChapin@vtc.vsc.edu>
-
-*/
+ *  \brief   Interface to a simple timer abstract type.
+ *  \author  Peter Chapin <spicacality@kelseymountain.org>
+ */
 
 #ifndef TIMER_H
 #define TIMER_H

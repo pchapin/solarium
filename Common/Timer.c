@@ -1,8 +1,7 @@
 /*! \file    Timer.c
-    \brief   Implementation of a simple timer abstract type.
-    \author  Peter C. Chapin <PChapin@vtc.vsc.edu>
-
-*/
+ *  \brief   Implementation of a simple timer abstract type.
+ *  \author  Peter Chapin <spicacality@kelseymountain.org>
+ */
 
 #include <stddef.h>
 #include "Timer.h"

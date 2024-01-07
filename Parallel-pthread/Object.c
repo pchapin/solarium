@@ -1,13 +1,13 @@
 /*! \file    Object.c
  *  \brief   Implementation of object data arrays.
- *  \author  Peter C. Chapin <pchapin@vtc.edu>
+ *  \author  Peter Chapin <spicacality@kelseymountain.org>
  */
 
 #include <stdio.h>
 #include <math.h>
 #include <pthread.h>
 #include <stdlib.h>
-#ifdef __GLIBC__
+#if  defined(__GLIBC__) || defined(__CYGWIN__)
 #include <sys/sysinfo.h>
 #endif
 
@@ -26,7 +26,7 @@ struct WorkUnit {
 void *compute_next_dynamics(void *arg)
 {
     struct WorkUnit *chunk = (struct WorkUnit *)arg;
-    
+
     // For each object...
     for( int object_i = chunk->start_index; object_i < chunk->stop_index; ++object_i ) {
         Vector3 total_force = { 0.0, 0.0, 0.0 };
@@ -62,7 +62,7 @@ void *compute_next_dynamics(void *arg)
 
 void time_step( )
 {
-    #ifdef __GLIBC__
+    #if defined(__GLIBC__) || defined(__CYGWIN__)
     int processor_count = get_nprocs( );
     #else
     int processor_count = pthread_num_processors_np( );
@@ -80,18 +80,18 @@ void time_step( )
         chunks[i].stop_index = ( i + 1 ) * objects_per_processor;
     }
     chunks[processor_count - 1].stop_index = OBJECT_COUNT;
-    
+
     // Create a thread for each CPU and set it working on its work unit.
     for( int i = 0; i < processor_count; ++i ) {
         pthread_create( &thread_IDs[i], NULL, compute_next_dynamics, &chunks[i]);
     }
-    
+
 
     // Wait for all thread to end.
     for( int i = 0; i < processor_count; ++i ) {
         pthread_join( thread_IDs[i], NULL );
     }
-        
+
     // Swap the dynamics arrays.
     ObjectDynamics *temp = current_dynamics;
     current_dynamics     = next_dynamics;

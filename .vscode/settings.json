@@ -1,0 +1,12 @@
+{
+    "cSpell.words": [
+        "CUDA",
+        "nmake",
+        "POSIX",
+        "pthread",
+        "PTHREADS"
+    ],
+    "C_Cpp.default.includePath": [
+        "${workspaceFolder}/**"
+    ],
+}

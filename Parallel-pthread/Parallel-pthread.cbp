@@ -2,15 +2,15 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="Parallel" />
+		<Option title="Parallel-pthread" />
 		<Option pch_mode="2" />
-		<Option compiler="clang" />
+		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/Parallel" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/Serial" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
-				<Option compiler="clang" />
+				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
@@ -19,10 +19,10 @@
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/Parallel" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/Serial" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
-				<Option compiler="clang" />
+				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
 				</Compiler>
@@ -34,12 +34,10 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add option="-pthread" />
-			<Add directory="../../Spica/C" />
+			<Add option="-std=c99" />
+			<Add option="-std=gnu99" />
+			<Add directory="../Common" />
 		</Compiler>
-		<Linker>
-			<Add library="pthread" />
-		</Linker>
 		<Unit filename="Object.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -47,9 +45,6 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Extensions>
-			<code_completion />
-			<debugger />
-		</Extensions>
+		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

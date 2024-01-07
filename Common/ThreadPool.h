@@ -1,7 +1,7 @@
 /*!
  * \file    ThreadPool.h
  * \brief   Interface to a thread pool type.
- * \author  Peter C. Chapin <PChapin@vtc.vsc.edu>
+ * \author  Peter Chapin <spicacality@kelseymountain.org>
  *
  * The thread pool defined here uses POSIX threads as the underlying thread API.
  */

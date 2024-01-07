@@ -1,7 +1,7 @@
 /*!
  * \file    global.h
- * \brief   Definition of contants and of object data types and arrays.
- * \author  Peter C. Chapin <pchapin@vtc.edu>
+ * \brief   Definition of constants and of object data types and arrays.
+ * \author  Peter Chapin <spicacality@kelseymountain.org>
  */
 
 #ifndef GLOBAL_H

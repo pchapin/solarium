@@ -1,6 +1,6 @@
 /*! \file str.c
  *  \brief Definitions of the string methods.
- *  \author Peter C. Chapin <PChapin@vtc.vsc.edu>
+ *  \author Peter Chapin <spicacality@kelseymountain.org>
  *  \date September 11, 2015
  *  \warning This code has not been extensively tested!
  *
@@ -48,9 +48,9 @@
  *
  * + Write a decent test program.
  *
- * + Rewrite string_findchar() using a memory search function.
+ * + Rewrite string_find_char() using a memory search function.
  *
- * + Consider implementing a more sophisticated string search algorithm in string_findstring().
+ * + Consider implementing a more sophisticated string search algorithm in string_find_string().
  *
  * + Considering implementing some additional operations (Reverse string searches? Character
  *   replacement?)
@@ -207,7 +207,7 @@ int string_copy( string *object, const string *other )
  * \return -1 if the operation fails to complete due to a lack of memory resources; zero if the
  * operation was successful. If the operation fails, the destination string is left unchanged.
  */
-int string_copycharp( string *object, const char *other )
+int string_copy_char_p( string *object, const char *other )
 {
     size_t  other_size;
     size_t  new_capacity;
@@ -248,7 +248,7 @@ int string_copycharp( string *object, const char *other )
  * operation was successful. If the operation fails, the destination string is left unchanged.
  * The capacity of the destination string is not modified by this operation.
  */
-int string_copychar( string *object, char other )
+int string_copy_char( string *object, char other )
 {
     assert( object->start != NULL );
     
@@ -271,7 +271,7 @@ int string_copychar( string *object, char other )
  * \return -1 if the operation fails to complete due to a lack of memory resources; zero if the
  * operation was successful. If the operation fails, the destination string is left unchanged.
  */
-int string_copyf( string *object, const char *format, ... )
+int string_copy_f( string *object, const char *format, ... )
 {
     // This is nasty and hacked. A better version would resize the buffer until it worked and it
     // would then install the buffer directly into the target object (no need to copy it).
@@ -290,7 +290,7 @@ int string_copyf( string *object, const char *format, ... )
         return -1;
     }
     assert( return_value >= 0 );
-    return_value = string_copycharp( object, buffer );
+    return_value = string_copy_char_p( object, buffer );
     free( buffer );
     va_end( args );
 
@@ -303,7 +303,7 @@ int string_copyf( string *object, const char *format, ... )
  * A copy of the source string is appended to the end of the destination string.
  *
  * \param object Destination string.
- * \param other Source spcia-string.
+ * \param other Source string.
  *
  * \return -1 if the operation fails to complete due to a lack of memory resources; zero if the
  * operation was successful. If the operation fails, the destination string is left unchanged.
@@ -349,7 +349,7 @@ int string_append( string *object, const string *other )
  * \return -1 if the operation fails to complete due to a lack of memory resources; zero if the
  * operation was successful. If the operation fails, the destination string is left unchanged.
  */
-int string_appendcharp( string *object, const char *other )
+int string_append_char_p( string *object, const char *other )
 {
     size_t  other_size;
     size_t  new_capacity;
@@ -390,7 +390,7 @@ int string_appendcharp( string *object, const char *other )
  * \return -1 if the operation fails to complete due to a lack of memory resources; zero if the
  * operation was successful. If the operation fails, the destination string is left unchanged.
  */
-int string_appendchar( string *object, char other )
+int string_append_char( string *object, char other )
 {
     size_t  new_capacity;
     char   *temp;
@@ -431,7 +431,7 @@ int string_appendchar( string *object, char other )
  * \return -1 if the operation fails to complete due to a lack of memory resources; zero if the
  * operation was successful. If the operation fails, the destination string is left unchanged.
  */
-int string_appendf( string *object, const char *format, ... )
+int string_append_f( string *object, const char *format, ... )
 {
     // This is nasty and hacked. A better version would resize the buffer until it worked. It
     // would be nice if we could also avoid the final copy of the buffer into the target object.
@@ -449,7 +449,7 @@ int string_appendf( string *object, const char *format, ... )
         return -1;
     }
     assert( return_value >= 0 );
-    return_value = string_appendcharp( object, buffer );
+    return_value = string_append_char_p( object, buffer );
     free( buffer );
     va_end( args );
     
@@ -510,7 +510,7 @@ int string_prepend( string *object, const string *other )
  * \return -1 if the operation fails to complete due to a lack of memory resources; zero if the
  * operation was successful. If the operation fails, the destination string is left unchanged.
  */
-int string_prependcharp( string *object, const char *other )
+int string_prepend_char_p( string *object, const char *other )
 {
     char  *temp;
     size_t new_capacity;
@@ -553,7 +553,7 @@ int string_prependcharp( string *object, const char *other )
  * \return -1 if the operation fails to complete due to a lack of memory resources; zero if the
  * operation was successful. If the operation fails, the destination string is left unchanged.
  */
-int string_prependchar( string *object, char other )
+int string_prepend_char( string *object, char other )
 {
     char  *temp;
     size_t new_capacity;
@@ -604,12 +604,12 @@ size_t string_length( const string *object )
  * Attempting to access a character position off the end of the string results in undefined
  * behavior.
  *
- * \param object Spcia-string to access.
+ * \param object string to access.
  * \param char_index Index to desired character.
  *
  * \return Character at the specified index.
  */
-char string_getcharat( const string *object, size_t char_index )
+char string_get_char_at( const string *object, size_t char_index )
 {
     assert( object->start != NULL );
     assert( char_index < object->size );
@@ -629,7 +629,7 @@ char string_getcharat( const string *object, size_t char_index )
  *
  * \return Pointer to the string's internal representation.
  */
-char *string_getcharp( string *object )
+char *string_get_char_p( string *object )
 {
     assert( object->start != NULL );
     
@@ -648,7 +648,7 @@ char *string_getcharp( string *object )
  * \param other Character to put into the string.
  * \param char_index Index into the string where character is to go.
  */
-void string_putcharat(
+void string_put_char_at(
   string *object, char other, size_t char_index )
 {
     assert( object->start != NULL );
@@ -689,17 +689,17 @@ int string_equal( const string *left, const string *right )
  */
 int string_less( const string *left, const string *right )
 {
-    char   *leftp = left->start;
-    char   *rightp = right->start;
+    char   *left_p = left->start;
+    char   *right_p = right->start;
     size_t  index;
 
     assert( left->start != NULL && right->start != NULL );
   
     for( index = 0; index < left->size; index++ ) {
         if( index >= right->size ) break;
-        if( *leftp < *rightp ) return 1;
-        if( *leftp > *rightp ) return 0;
-        leftp++; rightp++;
+        if( *left_p < *right_p ) return 1;
+        if( *left_p > *right_p ) return 0;
+        left_p++; right_p++;
     }
 
     // If the right side is longer, then the left side is a prefix.
@@ -718,9 +718,9 @@ int string_less( const string *left, const string *right )
  * \return Index of the first occurrence of the needle character or (size_t)-1 if the needle
  * character does not occur.
  */
-size_t string_findchar( const string *haystack, char needle )
+size_t string_find_char( const string *haystack, char needle )
 {
-    char   *haystackp = haystack->start;
+    char   *haystack_p = haystack->start;
     size_t  index;
 
     assert( haystack->start != NULL );
@@ -729,7 +729,7 @@ size_t string_findchar( const string *haystack, char needle )
     // contain embedded null bytes).
     // 
     for( index = 0; index < haystack->size; index++ ) {
-        if( *haystackp == needle ) return index;
+        if( *haystack_p == needle ) return index;
     }
     return (size_t)-1;
 }
@@ -746,9 +746,9 @@ size_t string_findchar( const string *haystack, char needle )
  * \return Index of the first occurrence of the needle string or (size_t)-1 if the needle string
  * does not occur.
  */
-size_t string_findstring( const string *haystack, const string *needle )
+size_t string_find_string( const string *haystack, const string *needle )
 {
-    char   *haystackp = haystack->start;
+    char   *haystack_p = haystack->start;
     size_t  index1;
     size_t  index2;
 
@@ -759,10 +759,10 @@ size_t string_findstring( const string *haystack, const string *needle )
     if( needle->size == 0 ) return 0;
 
     for( index1 = 0; index1 < (haystack->size - needle->size + 1); index1++ ) {
-        char *needlep = needle->start;
+        char *needle_p = needle->start;
 
         for( index2 = index1; index2 < index1 + needle->size; index2++ ) {
-            if( haystackp[index2] != *needlep ) break;
+            if( haystack_p[index2] != *needle_p ) break;
         }
 
         // Did the inner loop end naturally? If so, there is a match.
@@ -802,7 +802,7 @@ int string_substring(
     if( string_erase(target) == -1 ) return -1;
     for( temp_index = index; temp_index < index + length; temp_index++ ) {
         if( temp_index >= source->size ) break;
-        if( string_appendchar( target, source->start[temp_index] ) == -1 ) return -1;
+        if( string_append_char( target, source->start[temp_index] ) == -1 ) return -1;
     }
     return 0;
 }
@@ -865,8 +865,8 @@ void string_swap( string *left, string *right )
 /*!
  * This method returns the next white space delimited word from the input file. Leading white
  * space is skipped. If this method returns due to an error condition, the destination string
- * will contain the characters successfully read before the error occured. All other
- * chararacters will remain on the input stream (no characters are lost).
+ * will contain the characters successfully read before the error occurred. All other
+ * characters will remain on the input stream (no characters are lost).
  *
  * \param object Destination string.
  * \param infile Input file.
@@ -902,7 +902,7 @@ int string_read( string *object, FILE *infile )
             assert( ungot_ch != EOF );
             break;
         }
-        if( string_appendchar(object, (char)ch ) == -1 ) {
+        if( string_append_char(object, (char)ch ) == -1 ) {
             ungot_ch = ungetc( ch, infile );
             assert( ungot_ch != EOF );
             return -1;
@@ -930,7 +930,7 @@ int string_read( string *object, FILE *infile )
  * was successfully read.
  */
 /*@+charint@*/
-int string_readline( string *object, FILE *infile )
+int string_read_line( string *object, FILE *infile )
 {
     int ch;
     int ungot_ch;
@@ -941,7 +941,7 @@ int string_readline( string *object, FILE *infile )
     if( string_erase( object ) == -1 ) return -1;
     while( ( ch = getc( infile ) ) != EOF ) {
         if( ch == '\n' ) break;
-        if( string_appendchar( object, (char)ch ) == -1 ) {
+        if( string_append_char( object, (char)ch ) == -1 ) {
             ungot_ch = ungetc( ch, infile );
             assert( ungot_ch != EOF );
             return -1;
@@ -962,15 +962,15 @@ int string_readline( string *object, FILE *infile )
  */
 int string_write( const string *object, FILE *outfile )
 {
-    char   *objectp = object->start;
+    char   *object_p = object->start;
     size_t  index;
 
     assert( object->start != NULL );
     assert( outfile != NULL );
 
     for( index = 0; index < object->size; index++ ) {
-        if( fputc( *objectp, outfile ) == EOF ) return -1;
-        objectp++;
+        if( fputc( *object_p, outfile ) == EOF ) return -1;
+        object_p++;
     }
 
     return 0;
@@ -980,15 +980,15 @@ int string_write( const string *object, FILE *outfile )
 //! Write a string and a newline to an output file.
 /*!
  * This method differs from string_write() in that it also writes a newline character to the
- * output file after it has writen the specified string. This method is intended to work with
- * string_readline().
+ * output file after it has written the specified string. This method is intended to work with
+ * string_read_line().
  *
  * \param object string to write.
  * \param outfile Output file.
  *
  * \return -1 if an error occurs during the write operation; zero otherwise.
  */
-int string_writeline( const string *object, FILE *outfile )
+int string_write_line( const string *object, FILE *outfile )
 {
     assert( object->start != NULL );
     assert( outfile != NULL );

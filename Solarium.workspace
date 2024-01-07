@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_workspace_file>
-	<Workspace title="Solarium">
-		<Project filename="BarnesHut/BarnesHut.cbp">
-			<Depends filename="../Spica/C/SpicaC.cbp" />
-		</Project>
-		<Project filename="Serial/Serial.cbp" active="1">
-			<Depends filename="../Spica/C/SpicaC.cbp" />
-		</Project>
-		<Project filename="../Spica/C/SpicaC.cbp" />
-		<Project filename="Parallel/Parallel.cbp">
-			<Depends filename="../Spica/C/SpicaC.cbp" />
-		</Project>
-	</Workspace>
+        <Workspace title="Solarium">
+                <Project filename="BarnesHut/BarnesHut.cbp">
+                        <Depends filename="../SpicaC/SpicaC.cbp" />
+                </Project>
+                <Project filename="Serial/Serial.cbp" active="1">
+                        <Depends filename="../SpicaC/SpicaC.cbp" />
+                </Project>
+                <Project filename="../SpicaC/SpicaC.cbp" />
+                <Project filename="Parallel-pthread/Parallel-pthread.cbp">
+                        <Depends filename="../SpicaC/SpicaC.cbp" />
+                </Project>
+        </Workspace>
 </CodeBlocks_workspace_file>

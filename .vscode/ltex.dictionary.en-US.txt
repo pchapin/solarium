@@ -1,0 +1,6 @@
+CUDA
+OpenACC
+OpenMP
+Parallel-pthread
+Chapin
+Cygwin

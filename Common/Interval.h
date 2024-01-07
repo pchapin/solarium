@@ -1,6 +1,6 @@
 /*! \file    Interval.h
  *  \brief   Handling of floating point intervals.
- *  \author  Peter C. Chapin <pchapin@vtc.edu>
+ *  \author  Peter Chapin <spicacality@kelseymountain.org>
  */
 
 #ifndef INTERVAL_H
@@ -8,8 +8,8 @@
 
 //! Structure that represents an interval of two doubles.
 typedef struct {
-    double min;
-    double max;
+	double min;
+	double max;
 } Interval;
 
 void Interval_init( Interval *self, double min, double max );

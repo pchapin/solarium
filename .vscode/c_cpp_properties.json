@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${default}",
+                "${env:PTHREAD_HOME}\\include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "windowsSdkVersion": "10.0.22621.0",
+            "compilerPath": "cl.exe",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-msvc-x64",
+            "cStandard": "c99"
+        }
+    ],
+    "version": 4
+}

@@ -1,8 +1,7 @@
 /*! \file    Vector3.c
-    \brief   Implementation of the handling of three dimensional vectors.
-    \author  Peter C. Chapin <PChapin@vtc.vsc.edu>
-
-*/
+ *  \brief   Implementation of the handling of three dimensional vectors.
+ *  \author  Peter Chapin <spicacality@kelseymountain.org>
+ */
 
 #include "Vector3.h"
 
