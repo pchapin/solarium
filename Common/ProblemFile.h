@@ -24,8 +24,7 @@ enum ProblemFileStatus {
  *  structure does enforce the rule that requires the Version setting to be first.
  */
 typedef struct {
-
-
+    int version;
 } ProblemFile;
 
 enum ProblemFileStatus ProblemFile_initialize( ProblemFile *pf, const char *file_name );

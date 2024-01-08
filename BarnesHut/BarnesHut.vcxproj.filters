@@ -7,9 +7,6 @@
     <ClCompile Include="Object.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Initialize.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Octree.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -26,12 +23,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Object.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Initialize.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Octree.h">
       <Filter>Header Files</Filter>
     </ClInclude>

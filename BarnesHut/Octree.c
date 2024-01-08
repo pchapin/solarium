@@ -1,7 +1,6 @@
 /*! \file Octree.c
  *  \brief Implementation of octrees and their operations.
- *  \author Peter C. Chapin <pchapin@vtc.edu>
- *  \date October 22, 2012
+ *  \author Peter Chapin <spicacality@kelseymountain.org>
  */
 
 #include <math.h>
