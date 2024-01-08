@@ -3,31 +3,30 @@
 \label{sec:sequential}
 
 The first step in this project is to create a sequential (single threaded) program that solves
-this problem. This program can be used as a performance baseline against which our parallel
-programs can be compared. Ideally a parallel program with $n$ execution units (threads, cluster
-nodes, etc) would run $n$ times faster than the sequential program.
+this problem. This program can be used as a performance baseline against which the parallel
+programs can be compared. Ideally a parallel program with $n$ processing elements (threads,
+cluster nodes, etc.) would run $n$ times faster than the sequential program.
 
 The sequential program will be written in the C programming language. Many high performance
 computations are written in Fortran, a language optimized for this kind of application. Fortran
-programs can often out perform equivalent C programs by 10--20\%. However, your background is
-with C so we will stick to those languages for this exercise.
+programs can often outperform equivalent C programs by 10--20\%.
 
-The sequential program is called \filename{serial}. The program contains three parts.
+The sequential program is called \filename{Serial}. The program contains three parts.
 \begin{enumerate}
 \item Read initial inputs.
-\item Do the computation (loop over all time steps, etc).
+\item Do the computation (loop over all time steps, etc.).
 \item Write the outputs.
 \end{enumerate}
 
-Because \filename{serial} can produce a considerable amount of data for each time step, a
-version of \filename{serial} with practical limits on memory consumption will need to output
+Because \filename{Serial} can produce a considerable amount of data for each time step, a
+version of \filename{Serial} with practical limits on memory consumption will need to output
 results as it goes along. This means that timing data must be gathered inside the program so
 that the computation time can be clearly distinguished from the disk I/O time\footnote{Both
-  times are interesting, of course. Our parallel machine can do parallel disk access and so it
-  should be able to accelerate both computation and I/O operations.}.
+times are interesting, of course. Our parallel machine can do parallel disk access and so it
+should be able to accelerate both computation and I/O operations.}.
 
 % This paragraph should probably go into a separate section.
-One interesting question is can the program go fast enough to allow real time visualization of
+One interesting question is: can the program go fast enough to allow real time visualization of
 the results? That is, can it compute results as fast as they are needed by the visualization
 software? Most major simulations are not able to do this when run on realistic problem sizes.
 However, if the simulation can run that quickly it creates the possibility of making the
@@ -37,7 +36,7 @@ simulation interactive.
 \label{sec:sequential-input}
 
 Each problem instance is described by a small text file that defines the size of the problem and
-specifies the location of the other input files. \filename{serial} takes the name of this
+specifies the location of the other input files. \filename{Serial} takes the name of this
 problem instance file as a command line argument; it is the only input file that needs to be
 directly specified.
 
@@ -51,7 +50,7 @@ order in the file. All settings must be present; there are no defaults.
 
 \begin{description}
 \item[Version] (integer) The version of the problem instance file in use. This item must be the
-  first non-blank, non-comment line in the file. Currently only version 1 is supported.
+  first non-blank, non-comment line in the file. Currently, only version 1 is supported.
 \item[Units] (string) An identifier that indicates what system of units are being used by the
   simulation. The allows values of this identifier are not specified here. However,
   \filename{serial} will abort with an error if it does not recognize the identifier used.
@@ -87,14 +86,14 @@ VelocityTable = run1-velocity.txt
 The input tables use a format similar to the problem instance file. They are text files with one
 record on each line. Blank lines and comments introduced with `\#' are ignored. The first line
 must be a Version setting with a value that agrees with the Version setting in the problem
-instance file. Currently only Version 1 is supported. The next two lines must contain a Units
+instance file. Currently, only Version 1 is supported. The next two lines must contain a unit
 setting and a value of $N$ that agree with what is in the problem instance file. This redundancy
-ensures that one does not accidentaly create a problem instance with, for example, an
+ensures that one does not accidentally create a problem instance with, for example, an
 inconsistent system of units.
 
 The number of records in a table file must, naturally, agree with the specified value of $N$. If
-it does not \filename{serial} will display an error message and abort. If the number of records
-is not correct \filename{serial} assumes there is an error in the file and won't spend time
+it does not \filename{Serial} will display an error message and abort. If the number of records
+is not correct \filename{Serial} assumes there is an error in the file and won't spend time
 doing a run on bad data.
 
 Each data line starts with an integer $k$ in the range $1 \le k \le N$. The lines must be

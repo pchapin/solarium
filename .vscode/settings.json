@@ -3,10 +3,16 @@
         "CUDA",
         "nmake",
         "POSIX",
+        "PROBLEMFILE",
         "pthread",
-        "PTHREADS"
+        "PTHREADS",
+        "Williston"
     ],
     "C_Cpp.default.includePath": [
         "${workspaceFolder}/**"
     ],
+    "files.associations": {
+        "initialize.h": "c",
+        "stdlib.h": "c"
+    },
 }

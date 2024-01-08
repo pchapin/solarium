@@ -4,3 +4,4 @@ OpenMP
 Parallel-pthread
 Chapin
 Cygwin
+Fortran

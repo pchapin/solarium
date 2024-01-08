@@ -1,15 +1,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % FILE   : main.tex
-% AUTHOR : (C) Copyright 2012 by Peter C. Chapin
+% AUTHOR : (C) Copyright 2024 by Peter Chapin
 % SUBJECT: Document describing the solar system simulator.
 %
 % Send comments or bug reports to:
 %
-%       Peter C. Chapin
+%       Peter Chapin
 %       Computer Information Systems Department
-%       Vermont Technical College
-%       Randolph Center, VT 05061
-%       PChapin@vtc.vsc.edu
+%       Vermont State University
+%       Williston, VT 05061
+%       spicacality@kelseymountain.org
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %+++++++++++++++++++++++++++++++++
@@ -43,9 +43,9 @@
 %-----------------------
 % Title page information
 %-----------------------
-\title{Solar System Simulation}
-\author{Peter C. Chapin}
-\date{May 20, 2012}
+\title{Solarium: A Solar System Simulator}
+\author{Peter Chapin}
+\date{January 7, 2024}
 \maketitle
 
 \section{Introduction}
@@ -53,25 +53,26 @@
 
 The dynamics of solar systems is an interesting research topic in astronomy. Although many solar
 systems exhibit a high degree of stability even over billions of years, that is not universally
-the case. When a large number of bodies interact gravitationally, chaotic behavior can arise
-causing planets to be ejected from the system or even to collide. There is evidence that this
-sort of chaos even occured in our own solar system early in its history\footnote{It is currently
-  believed that a mars sized planet collided with the Earth causing the formation of the Moon.}
+the case. When many bodies interact gravitationally, chaotic behavior can arise causing planets
+to be ejected from the system or even to collide. There is evidence that this sort of chaos even
+occurred in our own solar system early in its history\footnote{It is currently believed that a
+Mars sized planet collided with the Earth causing the formation of the Moon.}
 
-The purpose of this exercise is to simulate the motion of objects in a solar system. The
-simulation is intended to run for millions (or even billions) of simulated years to explore long
-term solar system stability. We will assume that a solar system is composed of a finite number
-of gravitationally interacting ``point'' masses. We will also consider each object to be a
-sphere with a fixed size so that collisions can be detected and counted.
+The purpose of this program is to simulate the motion of objects in a solar system. The
+simulation is eventually intended to run for millions (or even billions) of simulated years to
+explore long term solar system stability. We will assume that a solar system is composed of a
+finite number of gravitationally interacting ``point'' masses. We will also consider each object
+to be a sphere with a fixed size so that collisions can be detected and counted.
 
 This model of the solar system is reasonably accurate for our purposes. The effects of
-interplanteary gas and dust as well as exotic ``dark matter'' or ``dark energy'' should not be
+interplanetary gas and dust as well as exotic ``dark matter'' or ``dark energy'' should not be
 significant on the scales of interest here. In this model the motion of the objects in the solar
-system can be completely described by the reponse to their mutual gravitational attraction.
+system can be completely described by the response to their mutual gravitational attraction.
 
-Although it is hoped that the program described here will produce reasonable and interesting
-results, the primary goal of this exercise is to demonstrate various parallel programming
-techniques in the context of a typical high performance computing application.
+It should be said, that although it is hoped that the program described here will produce
+reasonable and interesting results, the primary goal of this exercise is to demonstrate various
+parallel programming techniques in the context of a typical high performance computing
+application.
 
 The rest of this document is organized as follows. Section~\ref{sec:computation} describes the
 required computation in more detail along with some mathematical background.
@@ -80,7 +81,7 @@ should be used and how the input and output of the computation should be prepare
 sequential program that solves the problem is presented and discussed in detail in
 Section~\ref{sec:sequential}. Various issues surrounding how to parallelize the computation,
 along with related programming exercises are then presented in Section~\ref{sec:parallelizing}.
-Finally the document concludes with some benchmarks, a summary of results, and so forth.
+Finally, the document concludes with some benchmarks, a summary of results, and so forth.
 
 \input{Computation}
 \input{Preliminaries}

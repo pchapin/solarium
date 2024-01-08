@@ -52,21 +52,33 @@ The folders contain the following
 + Serial: This version is entirely serial. It can be used as a baseline against which timings of
   all the parallel versions can be compared.
 
+## Editing
+
+Visual Studio Code is the recommended editor for this project. The `.vscode` folder contains
+settings that should make it easy to get started. The actual building is typically done in
+the terminal by running `make` in the appropriate folder manually.
+
+Two IDEs are also supported: Code::Blocks and Visual Studio. See below for details.
+
 ## Building
 
 Most folders contain a `Makefile` that can be used to build the programs in that folder. The
-`Makefile` in the `Common` folder can be used to build the common library components. The make
-files should be compatible across Linux, macOS, and Windows (using Cygwin). The make files are
-not necessarily compatible with Microsoft's `nmake` tool.
+`Makefile` in the `Common` folder can be used to build the common library components and their
+test program. All the make files should be compatible across Linux, macOS, and Windows (using
+Cygwin). They are not necessarily compatible with Microsoft's `nmake` tool.
 
 Each folder contains a `README.md` file that describes the programs in that folder and how to
 use them.
 
 ## Building with Code::Blocks
 
-The Code::Blocks IDE can be used to build the programs in this project. There is a workspace
-file in the root folder that can be used to open the entire project in Code::Blocks. Each folder
-contains a Code::Blocks project file that can be used to open just that folder in Code::Blocks.
+The Code::Blocks IDE can be used to build the programs in this project, but be aware that
+Code::Blocks is mostly only tested on the Linux platform; it may or may not work properly on
+other platforms.
+
+There is a workspace file in the root folder that can be used to open the entire project in
+Code::Blocks. Each folder contains a Code::Blocks project file that can be used to open just
+that folder in Code::Blocks.
 
 ## Building with Visual Studio
 

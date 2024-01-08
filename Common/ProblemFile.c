@@ -8,13 +8,16 @@
 #include "ProblemFile.h"
 #include "str.h"
 
-static int is_white( char ch )
+#define PRIVATE static
+#define PUBLIC
+
+PRIVATE int is_white( char ch )
 {
     if( ch == ' ' || ch == '\t' ) return 1;
     return 0;
 }
 
-static void trim_leading_whitespace( string *s )
+PRIVATE void trim_leading_whitespace( string *s )
 {
     const char *start = string_get_char_p( s );
     const char *p     = start;
@@ -29,7 +32,7 @@ static void trim_leading_whitespace( string *s )
     string_destroy( &result );
 }
 
-static void trim_trailing_whitespace( string *s )
+PRIVATE void trim_trailing_whitespace( string *s )
 {
     const char *start = string_get_char_p( s );
     const char *p     = start + string_length( s ) - 1;
@@ -46,7 +49,7 @@ static void trim_trailing_whitespace( string *s )
     string_destroy( &result );
 }
 
-static void remove_comments( string *s )
+PRIVATE void remove_comments( string *s )
 {
     string result;
 

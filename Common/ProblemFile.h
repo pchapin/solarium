@@ -1,8 +1,7 @@
 /*! \file    ProblemFile.h
-    \brief   Definition of an abstract data type that handles problem instance files.
-    \author  Peter C. Chapin <PChapin@vtc.vsc.edu>
-
-*/
+ *  \brief   Definition of an abstract data type that handles problem instance files.
+ *  \author  Peter Chapin <spicacality@kelseymountain.org>
+ */
 
 #ifndef PROBLEMFILE_H
 #define PROBLEMFILE_H

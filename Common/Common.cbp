@@ -67,9 +67,6 @@
 		<Unit filename="Vector3.h" />
 		<Unit filename="environ.h" />
 		<Unit filename="global.h" />
-		<Unit filename="main.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="str.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -3,7 +3,7 @@
 \label{sec:computation}
 
 Each object in the solar system has a location given by three coordinates. These coordinates
-constitute the object's position vector. In addition each object has a velocity vector that
+constitute the object's position vector. In addition, each object has a velocity vector that
 defines the object's motion. The position and velocity of an object are functions of time.
 
 In our simulation time moves forward in discrete jumps called ``time steps.'' The object's
@@ -13,15 +13,15 @@ velocity of each object, and a third that gives the mass of each object. The out
 computation is a collection of tables with one table for each object giving the position of that
 object for every time step of the simulation. Alternatively one could regard the output as a
 single, large table with a row for each time step and a column for each object. Note that the
-velocity of the objects are not output but velocities must be computed so that position can be
+velocity of the objects are not output, but velocities must be computed so that position can be
 updated properly.
 
-Real solar systems contain a large number of objects and have lifespans measured in billions of
-years. A fully accurate simulation would thus create an immense amount of data. To make the
-amount of data produced managable our simulation will track a much smaller number of objects and
-use as large a time step as possible. Keeping the simulation accurate under these conditions is
-a significant problem in numerical analysis. Although these matters are quite interesting they
-are outside the scope of this exercise. We will build our software and then tinker with the
+Real solar systems contain numerous objects and have lifespans measured in billions of years. A
+fully accurate simulation would thus create an immense amount of data. To make the amount of
+data produced manageable our simulation will track a much smaller number of objects and use as
+large a time step as possible. Keeping the simulation accurate under these conditions is a
+significant problem in numerical analysis. Although these matters are quite interesting they are
+outside the scope of this exercise. We will build our software and then tinker with the
 parameters to see how things behave.
 
 In principle the physics involved in this simulation is very simple. Each object in our universe
@@ -30,8 +30,8 @@ would follow the steps below.
 
 \begin{enumerate}
 
-\item Add up the graviational force on the object due to every other object in the universe. The
-  result is a vector in three dimensions.
+\item Add up the gravitational force on the object due to every other object in the universe.
+  The result is a vector in three dimensions.
 
 \item Since $F = ma$, the acceleration of the object can be computed by doing $F/m$ where $m$ is
   the mass of the object. The result is also a vector in three dimensions.
@@ -43,7 +43,7 @@ would follow the steps below.
 
 \item Since $v = dx/dt$, multiplying the velocity vector by the length of a time step results in
   a vector giving the change in position over that time step. Add that change in position to the
-  object's initial position vector to obtain it's position vector at the end of the time step.
+  object's initial position vector to obtain its position vector at the end of the time step.
 
 \item Output the object's new position vector. Repeat for all objects in the universe. Advance the
   master clock by one time step and repeat the entire computation.
@@ -59,5 +59,5 @@ particular time.
 You may recognize this process as that of solving a differential equation using numerical
 integration. In fact, the method I describe above for evaluating the integrals is quite
 simplistic. Eventually we should replace this method with something more sophisticated. However,
-if our primary goal is to explore parallel programming it is not critical to build a well
-structured numerical computation.
+if our primary goal is to explore parallel programming it is not critical to build a
+well-structured numerical computation.
