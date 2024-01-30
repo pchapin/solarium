@@ -1,12 +1,12 @@
 /*! \file    Vector3.h
- *  \brief   Handling of three dimensional vectors.
+ *  \brief   Handling of three-dimensional vectors.
  *  \author  Peter Chapin <spicacality@kelseymountain.org>
  */
 
 #ifndef VECTOR3_H
 #define VECTOR3_H
 
-//! Structure that represents a three dimensional vector.
+//! Structure that represents a three-dimensional vector.
 /*!
  *  This structure simplifies vector computations by encapsulating the handling of the vector's
  *  components.
