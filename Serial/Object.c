@@ -9,11 +9,6 @@
 
 #include "global.h"
 
-Object         *object_array;
-ObjectDynamics *current_dynamics;
-ObjectDynamics *next_dynamics;
-
-
 void time_step( )
 {
     // For each object...

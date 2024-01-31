@@ -9,6 +9,11 @@
 
 #include "Vector3.h"
 
+// We need this custom function for macOS.
+#if defined(__APPLE__)
+int get_macOS_nprocs( void );
+#endif
+
 // These constants can change the behavior of all programs that share this header.
 #define OBJECT_COUNT     10000
 #define AU               1.49597870700E+11  // Meters per astronomical unit.

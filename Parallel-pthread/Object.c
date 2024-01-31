@@ -14,10 +14,6 @@
 #include "global.h"
 #include "Initialize.h"
 
-Object         *object_array;
-ObjectDynamics *current_dynamics;
-ObjectDynamics *next_dynamics;
-
 struct WorkUnit {
     int start_index;
     int stop_index;
@@ -64,6 +60,8 @@ void time_step( )
 {
     #if defined(__GLIBC__) || defined(__CYGWIN__)
     int processor_count = get_nprocs( );
+    #elif defined(__APPLE__)
+    int processor_count = get_macOS_nprocs( );
     #else
     int processor_count = pthread_num_processors_np( );
     #endif

@@ -7,6 +7,11 @@
 #include "global.h"
 #include "Initialize.h"
 
+// The global arrays used to hold the object data.
+Object *object_array;
+ObjectDynamics *current_dynamics;
+ObjectDynamics *next_dynamics;
+
 //! Return a random coordinate inside a 100.0 AU cube about the origin.
 static double random_position_coordinate( )
 {

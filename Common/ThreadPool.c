@@ -4,10 +4,24 @@
  */
 
 #include <stdlib.h>
+#include "ThreadPool.h"
+
 #if defined(__GLIBC__) || defined(__CYGWIN__)
 #include <sys/sysinfo.h>  // For get_nprocs( ).
+#elif defined(__APPLE__)
+#include <sys/types.h>
+
+// This hack is needed because on macOS defining _XOPEN_SOURCE inhibits the definition of
+// u_char, u_int, u_short, etc. in <sys/types.h>. Unfortunately <sys/sysctl.h> requires those
+// types to be defined. Apparently it isn't possible to use <sys/sysctl.h> with _XOPEN_SOURCE
+// defined without this hack. I suppose by rights I shouldn't be including a non-standard header
+// file into a program declared to follow the X/Open standard. That is probably the root of the
+// problem.
+typedef unsigned char  u_char;
+typedef unsigned int   u_int;
+typedef unsigned short u_short;
+#include <sys/sysctl.h>
 #endif
-#include "ThreadPool.h"
 
 #define FALSE 0
 #define TRUE  1
@@ -28,6 +42,24 @@ struct ThreadInformation {
     pthread_cond_t  work_ready;
     pthread_cond_t result_ready;
 };
+
+
+#if defined(__APPLE__)
+//! Function for determining the number of available cores on macOS
+/*!
+ * This function is used to determine the number of available cores on macOS. It was suggested
+ * by GitHub Copilot with edits by me.
+ */
+int get_macOS_nprocs( void )
+{
+    int32_t cpu_count;
+    size_t count_length = sizeof( cpu_count );
+
+    if( sysctlbyname( "hw.logicalcpu", &cpu_count, &count_length, NULL, 0 ) == -1 )
+        return 1;
+    return cpu_count;
+}
+#endif
 
 
 //! Function that dispatches worker threads.
@@ -110,6 +142,8 @@ void ThreadPool_initialize( ThreadPool *self )
 
     #if defined(__GLIBC__) || defined(__CYGWIN__)
     self->pool_size = get_nprocs( );
+    #elif defined(__APPLE__)
+    self->pool_size = get_macOS_nprocs( );
     #else
     self->pool_size = pthread_num_processors_np( );
     #endif
