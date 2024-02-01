@@ -1,21 +1,14 @@
 /*! \file    Object.c
-    \brief   Implementation of object data arrays.
-    \author  Peter C. Chapin <PChapin@vtc.vsc.edu>
-
-*/
+ *  \brief   Implementation of object data arrays.
+ *  \author  Peter Chapin <spicacality@kelseymountain.org>
+ */
 
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
 
-#include "Object.h"
-
-       Object         *object_array;
-       ObjectDynamics *current_dynamics;
-       ObjectDynamics *next_dynamics;
-static ObjectDynamics *A;
-static ObjectDynamics *B;
+#include "global.h"
 
 void time_step( int start_index, int end_index )
 {

@@ -1,33 +1,28 @@
 /*! \file    main.c
  *  \brief   Main program of the parallel solar system simulator (barrier version).
- *  \author  Peter C. Chapin <pchapin@vtc.edu>
- *
- * LICENSE
- *
- * This program is free software; you can redistribute it and/or modify it under the terms of
- * the GNU General Public License as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
- * the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with this program; if
- * not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
- * 02111-1307 USA
+ *  \author  Peter Chapin <spicacality@kelseymountain.org>
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-#ifdef __GLIBC__
+#if defined(__GLIBC__) || defined(__CYGWIN__)
 #include <sys/sysinfo.h>
 #endif
-#include "Object.h"
-#include "Initialize.h"
+#include "global.h"
+#include "initialize.h"
 #include "Timer.h"
 
 #define STEPS_PER_YEAR 8766  // Number of hours in a year.
+
+//! Compute the next dynamics from the current dynamics.
+/*!
+ * This function takes one step of simulated time.
+ *
+ * \param start_index The object ID of the first object managed by this thread.
+ * \param end_index The object ID just past the last object managed by this thread.
+ */
+void time_step( int start_index, int end_index );
 
 struct TaskDescriptor {
     int start_index;  // Object ID at the start of thread's work space.
@@ -79,7 +74,7 @@ int main( int argc, char **argv )
     Timer stopwatch;
     int   return_code = EXIT_SUCCESS;
 
-    #ifdef __GLIBC__
+    #if defined(__GLIBC__) || defined(__CYGWIN__)
     int processor_count = get_nprocs( );
     #else
     int processor_count = pthread_num_processors_np( );
