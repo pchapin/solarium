@@ -10,7 +10,7 @@
 #include <sys/sysinfo.h>
 #endif
 #include "global.h"
-#include "initialize.h"
+#include "Initialize.h"
 #include "Timer.h"
 
 #define STEPS_PER_YEAR 8766  // Number of hours in a year.
@@ -99,7 +99,7 @@ int main( int argc, char **argv )
     for( int i = 0; i < processor_count; ++i ) {
         struct TaskDescriptor *task =
             (struct TaskDescriptor *)malloc( sizeof( struct TaskDescriptor ) );
-        task->step_count = STEPS_PER_YEAR * 1;
+        task->step_count = 500; // STEPS_PER_YEAR * 1;
         task->start_index = i * objects_per_processor;
         if( i == processor_count - 1 )
             task->end_index = OBJECT_COUNT;

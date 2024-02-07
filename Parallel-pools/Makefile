@@ -19,9 +19,9 @@ $(EXECUTABLE):	$(OBJECTS)
 # File Dependencies
 ###################
 
-main.o:		main.c Pool.h ../Common/global.h ../Common/Initialize.h
+main.o:		main.c ../Common/global.h ../Common/Initialize.h
 
-Object.o:	Object.c Pool.h ../Common/global.h ../Common/Initialize.h
+Object.o:	Object.c ../Common/Initialize.h
 
 # Additional Rules
 ##################
