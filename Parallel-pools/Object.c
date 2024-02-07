@@ -1,22 +1,24 @@
 /*! \file    Object.c
  *  \brief   Implementation of object data arrays.
- *  \author  Peter C. Chapin <pchapin@vtc.edu>
+ *  \author  Peter Chapin <keseymountain@spicacality.org>
  */
 
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
-#ifdef __GLIBC__
+#if defined(__GLIBC__) || defined(__CYGWIN__)
 #include <sys/sysinfo.h>
 #endif
 
 #include "global.h"
 #include "Initialize.h"
-#include "Pool.h"
+#include "ThreadPool.h"
 
-Object         *object_array;
-ObjectDynamics *current_dynamics;
-ObjectDynamics *next_dynamics;
+extern Object         *object_array;
+extern ObjectDynamics *current_dynamics;
+extern ObjectDynamics *next_dynamics;
+
+extern ThreadPool pool;
 
 struct Work_Unit {
     int start_index;
@@ -62,7 +64,7 @@ void *compute_next_dynamics(void *arg)
 
 void time_step( )
 {
-    #ifdef __GLIBC__
+    #if defined(__GLIBC__) || defined(__CYGWIN__)
     int processor_count = get_nprocs( );
     #else
     int processor_count = pthread_num_processors_np( );
