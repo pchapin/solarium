@@ -1,6 +1,6 @@
 /*! \file    Object.c
- *  \brief   Implementation of object data arrays.
- *  \author  Peter C. Chapin <pchapin@vtc.edu>
+ *  \brief   Implementation of object data arrays (OpenMP version).
+ *  \author  Peter Chapin <spicacality@kelseymountain.org>
  */
 
 #include <math.h>
@@ -8,11 +8,6 @@
 #include <stdlib.h>
 
 #include "global.h"
-
-Object         *object_array;
-ObjectDynamics *current_dynamics;
-ObjectDynamics *next_dynamics;
-
 
 void time_step( )
 {
