@@ -1,6 +1,6 @@
 /*! \file    Object.c
  *  \brief   Implementation of object data arrays.
- *  \author  Peter C. Chapin <pchapin@vtc.edu>
+ *  \author  Peter Chapin <peter.chapin@vermontstate.edu>
  */
 
 #include <math.h>
@@ -10,11 +10,6 @@
 #include <mpi.h>
 
 #include "global.h"
-
-Object         *object_array;
-ObjectDynamics *current_dynamics;
-ObjectDynamics *next_dynamics;
-
 
 void CPU_work_unit( int start_index, int stop_index )
 {
@@ -73,7 +68,7 @@ void build_MPI_dynamics_type( MPI_Datatype *type )
     types[0]   = MPI_DOUBLE;
     types[1]   = MPI_DOUBLE;
 
-    MPI_Type_struct( 2, block_lengths, offsets, types, type );
+    MPI_Type_create_struct( 2, block_lengths, offsets, types, type );
 }
 
 
@@ -94,7 +89,7 @@ void time_step( )
     int objects_per_node = OBJECT_COUNT / number_of_nodes;
     int my_object_count  = objects_per_node;
     if( my_rank == number_of_nodes - 1 ) {
-        // NOTE: If any of the nodes have a different my_object_count, MPI_Gather won't work!
+        // WARNING: If any of the nodes have a different my_object_count, MPI_Gather won't work!
         // Thus it is necessary for OBJECT_COUNT % number_of_nodes == 0.
         my_object_count += OBJECT_COUNT % number_of_nodes;
     }

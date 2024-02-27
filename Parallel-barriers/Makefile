@@ -3,7 +3,7 @@
 #
 
 CC=gcc
-CFLAGS=-c -pthread -std=c99 -D_XOPEN_SOURCE=600 -O2 -I../Common
+CFLAGS=-c -pthread -std=c99 -D_XOPEN_SOURCE=600 -O3 -I../Common
 LD=gcc
 LDFLAGS=-pthread
 SOURCES=main.c Object.c

@@ -3,7 +3,7 @@
 #
 
 CC=mpicc
-CFLAGS=-c -std=c99 -D_XOPEN_SOURCE=600 -fopenmp -O2 -I../Common
+CFLAGS=-c -std=c99 -D_XOPEN_SOURCE=600 -fopenmp -O3 -I../Common
 LD=mpicc
 LDFLAGS=-fopenmp
 SOURCES=main.c Object.c

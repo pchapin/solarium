@@ -3,7 +3,7 @@
 #
 
 CC=gcc
-CCFLAGS=-c -pthread -std=c99 -D_XOPEN_SOURCE=600 -O2
+CCFLAGS=-c -pthread -std=c99 -D_XOPEN_SOURCE=600 -O3
 LINK=ar
 SOURCES=Initialize.c  \
 	Interval.c    \

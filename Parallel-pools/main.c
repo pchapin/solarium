@@ -42,8 +42,10 @@ int main( int argc, char **argv )
                 fprintf( stderr, "Years simulated = %d\r", total_years );
                 fflush( stderr );
             }
+
+            // For now, stop the simulation after 1 year.
+            if( total_years == 1 ) break;
         }
-        if( total_steps == 500 ) break;
     }
     Timer_stop( &stopwatch );
     printf( "\nEND position\n" );
