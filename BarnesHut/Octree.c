@@ -1,5 +1,5 @@
 /*! \file Octree.c
- *  \brief Implementation of octrees and their operations.
+ *  \brief Implementation of Octree and its operations.
  *  \author Peter Chapin <spicacality@kelseymountain.org>
  */
 
@@ -11,7 +11,10 @@
 #define FALSE 0
 #define G     6.673E-11   // Gravitational constant in MKS units.
 
-static void subtree_destroy( /*@null@*/ /*@only@*/ struct OctreeNode *subtree )
+#define PRIVATE // static
+#define PUBLIC
+
+PRIVATE void subtree_destroy( struct OctreeNode *subtree )
 {
     int i;
 
@@ -31,7 +34,7 @@ static void subtree_destroy( /*@null@*/ /*@only@*/ struct OctreeNode *subtree )
 //  x < 0, y < 0, z > 0  ==> 6
 //  x < 0, y < 0, z < 0  ==> 7
 //
-static int get_octant( struct OctreeNode *overall, struct OctreeNode *particular )
+PRIVATE int get_octant( struct OctreeNode *overall, struct OctreeNode *particular )
 {
    double center_x = (overall->region.x_interval.max + overall->region.x_interval.min) / 2.0;
    double center_y = (overall->region.y_interval.max + overall->region.y_interval.min) / 2.0;
@@ -53,7 +56,7 @@ static int get_octant( struct OctreeNode *overall, struct OctreeNode *particular
 }
 
 
-static Box get_region( struct OctreeNode *overall, int octant_index )
+PRIVATE Box get_region( struct OctreeNode *overall, int octant_index )
 {
     double center_x = (overall->region.x_interval.max + overall->region.x_interval.min) / 2.0;
     double center_y = (overall->region.y_interval.max + overall->region.y_interval.min) / 2.0;
@@ -106,9 +109,7 @@ static Box get_region( struct OctreeNode *overall, int octant_index )
 }
 
 
-static void subtree_insert(
-    /*@dependent@*/ struct OctreeNode *current,
-    /*@only@*/      struct OctreeNode *new_node )
+PRIVATE void subtree_insert( struct OctreeNode *current, struct OctreeNode *new_node )
 {
     int octant_index;
 
@@ -135,7 +136,7 @@ static void subtree_insert(
 }
 
 
-static void subtree_refresh( struct OctreeNode *node )
+PRIVATE void subtree_refresh( struct OctreeNode *node )
 {
     double x = 0.0, y = 0.0, z = 0.0;
 
@@ -157,12 +158,13 @@ static void subtree_refresh( struct OctreeNode *node )
 }
 
 
-static Vector3 subtree_force( struct OctreeNode *node, Vector3 position, double mass )
+PRIVATE Vector3 subtree_force( struct OctreeNode *node, Vector3 position, double mass )
 {
     static const double theta = 0.5;
     Vector3 force = { 0.0, 0.0, 0.0 };
 
     // Ignore this node if it's the node containing the object under consideration.
+    // TODO: These comparisons are not safe for floating point numbers.
     if( node->is_leaf &&
         node->center_of_mass.x == position.x &&
         node->center_of_mass.y == position.y &&
@@ -201,7 +203,7 @@ static Vector3 subtree_force( struct OctreeNode *node, Vector3 position, double 
 }
 
 
-void Octree_init( Octree *tree, Box *overall_region )
+PUBLIC void Octree_init( Octree *tree, Box *overall_region )
 {
     // Provide default initial values.
     tree->root           =  NULL;
@@ -209,7 +211,7 @@ void Octree_init( Octree *tree, Box *overall_region )
 }
 
 
-int Octree_insert( Octree *tree, Vector3 position, double mass )
+PUBLIC int Octree_insert( Octree *tree, Vector3 position, double mass )
 {
     int i;
     struct OctreeNode *new_node;
@@ -237,7 +239,7 @@ int Octree_insert( Octree *tree, Vector3 position, double mass )
 }
 
 
-void Octree_refresh_interior( Octree *tree )
+PUBLIC void Octree_refresh_interior( Octree *tree )
 {
     if( tree->root != NULL ) {
         subtree_refresh( tree->root );
@@ -245,7 +247,7 @@ void Octree_refresh_interior( Octree *tree )
 }
 
 
-Vector3 Octree_force( Octree *tree, Vector3 position, double mass )
+PUBLIC Vector3 Octree_force( Octree *tree, Vector3 position, double mass )
 {
     Vector3 force = { 0.0, 0.0, 0.0 };
 
@@ -256,7 +258,7 @@ Vector3 Octree_force( Octree *tree, Vector3 position, double mass )
 }
 
 
-void Octree_destroy( Octree *tree )
+PUBLIC void Octree_destroy( Octree *tree )
 {
     // Deallocate all the tree nodes.
     subtree_destroy( tree->root );
