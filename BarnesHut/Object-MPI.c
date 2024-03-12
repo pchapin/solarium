@@ -1,6 +1,6 @@
 /*! \file    Object.c
  *  \brief   Implementation of object data arrays.
- *  \author  Peter C. Chapin <pchapin@vtc.edu>
+ *  \author  Peter Chapin <spicacality@kelseymountain.org>
  *
  * This version uses MPI and OpenMP to accelerate the computational loop.
  */
@@ -11,9 +11,7 @@
 #include "global.h"
 #include "Octree.h"
 
-Object         *object_array;
-ObjectDynamics *current_dynamics;
-ObjectDynamics *next_dynamics;
+#ifdef NEVER
 
 Box overall_region = {
     .x_interval = { -100.0 * AU, 100.0 * AU },
@@ -68,7 +66,7 @@ void build_MPI_dynamics_type( MPI_Datatype *type )
     types[0]   = MPI_DOUBLE;
     types[1]   = MPI_DOUBLE;
 
-    MPI_Type_struct( 2, block_lengths, offsets, types, type );
+    MPI_Type_create_struct( 2, block_lengths, offsets, types, type );
 }
 
 
@@ -136,3 +134,4 @@ void dump_dynamics( )
     }
 }
 
+#endif

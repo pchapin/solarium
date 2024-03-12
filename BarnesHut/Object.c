@@ -8,10 +8,6 @@
 #include "global.h"
 #include "Octree.h"
 
-//Object         *object_array;
-//ObjectDynamics *current_dynamics;
-//ObjectDynamics *next_dynamics;
-
 Box overall_region = {
     .x_interval = { -100.0 * AU, 100.0 * AU },
     .y_interval = { -100.0 * AU, 100.0 * AU },
