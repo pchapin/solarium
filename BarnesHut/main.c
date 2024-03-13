@@ -42,6 +42,9 @@ int main( int argc, char **argv )
             // For now, stop the simulation after 1 year.
             if( total_years == 1 ) break;
         }
+        
+        // For now, stop the simulation after 100 steps.
+        if( total_steps == 100) break;
     }
     Timer_stop( &stopwatch );
     printf( "\nEND position\n" );

@@ -4,14 +4,18 @@
 
 CC=gcc
 CFLAGS=-c -Wall -std=c99 -D_XOPEN_SOURCE=600 -O3 -fopenmp -I../Common
-noopt: CFLAGS=-c -Wall -std=c99 -D_XOPEN_SOURCE=600 -fopenmp -I../Common
-gcov:  CFLAGS=-c -Wall -std=c99 -D_XOPEN_SOURCE=600 -fopenmp -fprofile-arcs -ftest-coverage -I../Common
-gprof: CFLAGS=-c -Wall -std=c99 -D_XOPEN_SOURCE=600 -fopenmp -pg -I../Common
+debug:	CFLAGS=-c -g -Wall -std=c99 -D_XOPEN_SOURCE=600 -O0 -I../Common
+gcov:	CFLAGS=-c -Wall -std=c99 -D_XOPEN_SOURCE=600 -fprofile-arcs -ftest-coverage -I../Common
+gprof:	CFLAGS=-c -Wall -std=c99 -D_XOPEN_SOURCE=600 -pg -I../Common
 LD=gcc
 LDFLAGS=-fopenmp
+debug:	LDFLAGS=
+gcov:	LDFLAGS=
+gprof:	LDFLAGS=-pg
 LDLIBS=
-gcov:  LDLIBS=-fopenmp -lgcov
-gprof: LDLIBS=-fopenmp -pg
+debug:	LDLIBS=
+gcov:	LDLIBS=-lgcov
+gprof:	LDLIBS=
 SOURCES=main.c Object.c Octree.c
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=BarnesHut
@@ -20,9 +24,9 @@ EXECUTABLE=BarnesHut
 	$(CC) $(CFLAGS) $< -o $@
 
 $(EXECUTABLE):	$(OBJECTS)
-	$(LD) $(LDFLAGS) $(OBJECTS) $(LDLIBS) -L../Common -lCommon -lm -o $@
+	$(LD) $(LDFLAGS) $(OBJECTS) -L../Common -lCommon -lm $(LDLIBS) -o $@
 
-noopt:	$(EXECUTABLE)
+debug:	$(EXECUTABLE)
 
 gcov:	$(EXECUTABLE)
 
@@ -40,4 +44,4 @@ Octree.o:	Octree.c Octree.h
 # Additional Rules
 ##################
 clean:
-	rm -f *.o *.bc *.s *.ll *~ $(EXECUTABLE)
+	rm -f *.o *.bc *.s *.ll gmon.out *.gcno *~ $(EXECUTABLE)

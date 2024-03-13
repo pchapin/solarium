@@ -15,22 +15,23 @@ Box overall_region = {
 };
 
 
-void time_step( )
+void build_octree( Octree *spacial_tree )
 {
-    Octree spacial_tree;
-
     // Builds the Octree.
-    Octree_init( &spacial_tree, &overall_region );
     for( int i = 0; i < OBJECT_COUNT; ++i ) {
-        Octree_insert( &spacial_tree, current_dynamics[i].position, object_array[i].mass );
+        Octree_insert( spacial_tree, current_dynamics[i].position, object_array[i].mass );
     }
-    Octree_refresh_interior( &spacial_tree );
+    Octree_refresh_interior( spacial_tree );
+}
 
+
+void compute_forces( Octree *spacial_tree )
+{
     // For each object...
     #pragma omp parallel for
     for( int object_i = 0; object_i < OBJECT_COUNT; ++object_i ) {
         Vector3 total_force =
-            Octree_force( &spacial_tree,
+            Octree_force( spacial_tree,
                           current_dynamics[object_i].position,
                           object_array[object_i].mass );
 
@@ -45,8 +46,17 @@ void time_step( )
         next_dynamics[object_i].position =
             v3_add( current_dynamics[object_i].position, delta_position );
     }
+}
 
-    
+
+void time_step( )
+{
+    Octree spacial_tree;
+    Octree_init( &spacial_tree, &overall_region );
+
+    build_octree( &spacial_tree );
+    compute_forces( &spacial_tree );
+
     // Swap the dynamics arrays.
     ObjectDynamics *temp = current_dynamics;
     current_dynamics     = next_dynamics;
