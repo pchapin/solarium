@@ -38,7 +38,7 @@ int main( int argc, char **argv )
     // Copy the object array to the GPU. This never changes so this only needs to be done once.
     cudaMemcpy( dev_object_array,
                 object_array,
-                OBJECT_COUNT*sizeof(Object),
+                OBJECT_COUNT * sizeof(Object),
                 cudaMemcpyHostToDevice );
 
     // Maybe copy the dynamics arrays once and leave them on the device...? See note in Object.cu.

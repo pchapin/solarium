@@ -51,7 +51,7 @@ __global__ void do_calculations(
             for (int object_j = 0; object_j < BLOCK_SIZE; ++object_j) {
                 if( object_i == block_i * blockDim.x + object_j ) continue;
 
-                Vector3 displacement = cuda_v3_subtract( shared_position[object_j], pos_i );
+                const Vector3 displacement = cuda_v3_subtract( shared_position[object_j], pos_i );
                 const float distance_squared = cuda_magnitude_squared( displacement );
                 const float distance = sqrt( distance_squared );
                 const float t1 = mass_i / distance;
@@ -81,15 +81,15 @@ __global__ void do_calculations(
         for( int object_j = 0; object_j < OBJECT_COUNT - BLOCK_SIZE * (blocks-1); ++object_j ) {
             if( object_i == (blocks - 1) * blockDim.x + object_j ) continue;
 
-            Vector3 displacement = cuda_v3_subtract( shared_position[object_j], pos_i );
-            float distance_squared = cuda_magnitude_squared( displacement );
-            float distance = sqrt( distance_squared );
-            float t1 = mass_i / distance;
-            float t2 = shared_mass[object_j] / distance;
+            const Vector3 displacement = cuda_v3_subtract( shared_position[object_j], pos_i );
+            const float distance_squared = cuda_magnitude_squared( displacement );
+            const float distance = sqrt( distance_squared );
+            const float t1 = mass_i / distance;
+            const float t2 = shared_mass[object_j] / distance;
             //float force_magnitude =
             //    ( G * object_array[object_i].mass * object_array[object_j].mass ) / distance_squared;
-            float force_magnitude = ( G * t1 ) * t2;
-            Vector3 force = cuda_v3_multiply( (force_magnitude / distance ), displacement );
+            const float force_magnitude = ( G * t1 ) * t2;
+            const Vector3 force = cuda_v3_multiply( (force_magnitude / distance ), displacement );
             total_force = cuda_v3_add( total_force, force );
         }
 
