@@ -1,20 +1,6 @@
 /*! \file    main.c
  *  \brief   Main program of the CUDA solar system simulator.
- *  \author  Peter C. Chapin <pchapin@vtc.edu>
- *
- * LICENSE
- *
- * This program is free software; you can redistribute it and/or modify it under the terms of
- * the GNU General Public License as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
- * the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with this program; if
- * not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
- * 02111-1307 USA
+ *  \author  Peter Chapin <peter.chapin@vermontstate.edu>
  */
 
 #include <stdio.h>
@@ -45,9 +31,9 @@ int main( int argc, char **argv )
 
     // Allocate memory on GPU.
     // TODO: Add error checking!
-    cudaMalloc( (void**)&dev_object_array, OBJECT_COUNT*sizeof(Object) );
-    cudaMalloc( (void**)&dev_current_dynamics, OBJECT_COUNT*sizeof(ObjectDynamics) );
-    cudaMalloc( (void**)&dev_next_dynamics, OBJECT_COUNT*sizeof(ObjectDynamics) );
+    cudaMalloc( (void**)&dev_object_array, OBJECT_COUNT * sizeof(Object) );
+    cudaMalloc( (void**)&dev_current_dynamics, OBJECT_COUNT * sizeof(ObjectDynamics) );
+    cudaMalloc( (void**)&dev_next_dynamics, OBJECT_COUNT * sizeof(ObjectDynamics) );
 
     // Copy the object array to the GPU. This never changes so this only needs to be done once.
     cudaMemcpy( dev_object_array,
@@ -62,7 +48,7 @@ int main( int argc, char **argv )
     //            OBJECT_COUNT*sizeof(ObjectDynamics),
     //            cudaMemcpyHostToDevice );
 
-    while (1) {
+    while( 1 ) {
         cuda_time_step( dev_object_array, dev_current_dynamics, dev_next_dynamics );
         total_steps++;
 

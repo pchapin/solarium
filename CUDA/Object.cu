@@ -1,6 +1,6 @@
 /*! \file    Object.c
  *  \brief   Implementation of object data arrays.
- *  \author  Peter C. Chapin <pchapin@vtc.edu>
+ *  \author  Peter Chapin <peter.chapin@vermontstate.edu>
  */
 
 #include <stdio.h>
@@ -39,12 +39,12 @@ __global__ void do_calculations(
         for (unsigned block_i = 0; block_i < blocks-1; block_i++) {
 
             // Populate the shared information (essentially, cache it).
-            // Since everythread in the block is doing this, the entire shared arrays are filled.
+            // Since every thread in the block is doing this, the entire shared arrays are filled.
             shared_position[threadIdx.x] = current_dynamics[block_i * blockDim.x + threadIdx.x].position;
             shared_mass[threadIdx.x] = object_array[block_i * blockDim.x + threadIdx.x].mass;
 
             // Wait for all the threads in the block to finish populating the shared arrays.
-            __syncthreads();
+            __syncthreads( );
 
             // Consider interactions with all other objects...
             // Here object_i is an overall object index, but object_j is a per-block object index.
@@ -65,20 +65,21 @@ __global__ void do_calculations(
 
             
             // Wait for all threads in the block to finish computations before loading the next block.
-            __syncthreads();
+            __syncthreads( );
         }
 
         // Now we must deal with the last partial block...
 
-        if ((blocks-1) * blockDim.x + threadIdx.x < OBJECT_COUNT) {
+        if( (blocks - 1) * blockDim.x + threadIdx.x < OBJECT_COUNT ) {
             shared_position[threadIdx.x] =
                 current_dynamics[(blocks-1) * blockDim.x + threadIdx.x].position;
             shared_mass[threadIdx.x] =
                 object_array[(blocks-1) * blockDim.x + threadIdx.x].mass;
         }
-        __syncthreads();
-        for (int object_j = 0; object_j < OBJECT_COUNT - BLOCK_SIZE * (blocks-1); ++object_j) {
-            if( object_i == (blocks-1) * blockDim.x + object_j ) continue;
+        __syncthreads( );
+
+        for( int object_j = 0; object_j < OBJECT_COUNT - BLOCK_SIZE * (blocks-1); ++object_j ) {
+            if( object_i == (blocks - 1) * blockDim.x + object_j ) continue;
 
             Vector3 displacement = cuda_v3_subtract( shared_position[object_j], pos_i );
             float distance_squared = cuda_magnitude_squared( displacement );
@@ -127,7 +128,7 @@ void cuda_time_step(
                 OBJECT_COUNT * sizeof(ObjectDynamics),
                 cudaMemcpyHostToDevice );
 
-    size_t size_shared = BLOCK_SIZE * (sizeof(next_dynamics[0].position) + sizeof(object_array[0].mass));
+    size_t size_shared = BLOCK_SIZE * ( sizeof(next_dynamics[0].position) + sizeof(object_array[0].mass) );
     do_calculations<<<block_count, BLOCK_SIZE, size_shared>>>(
         dev_object_array, dev_current_dynamics, dev_next_dynamics );
 

@@ -1,6 +1,6 @@
 /*! \file    CUDAVector3.h
  *  \brief   Handling of three dimensional vectors on the GPU.
- *  \author  Peter C. Chapin <PChapin@vtc.vsc.edu>
+ *  \author  Peter Chapin <peter.chapin@vermontstate.edu>
  */
 
 #ifndef CUDAVECTOR3_H

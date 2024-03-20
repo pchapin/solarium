@@ -1,8 +1,7 @@
 /*! \file    Initialize.c
-    \brief   Implementation of initialization functions.
-    \author  Peter C. Chapin <PChapin@vtc.vsc.edu>
-
-*/
+ *  \brief   Implementation of initialization functions.
+ *  \author  Peter Chapin <peter.chapin@vermontstate.edu>
+ */
 
 #include <stdlib.h>
 #include "global.h"

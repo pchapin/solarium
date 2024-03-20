@@ -1,7 +1,6 @@
 /*! \file    Initialize.h
-    \brief   Declarations initialization functions.
-    \author  Peter C. Chapin <PChapin@vtc.vsc.edu>
-
+ *  \brief   Declarations initialization functions.
+ *  \author  Peter Chapin <peter.chapin@vermontstate.edu>
 */
 
 #ifndef INITIALIZE_H
