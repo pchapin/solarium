@@ -1,11 +1,11 @@
 ---------------------------------------------------------------------------
 -- FILE    : octrees.adb
 -- SUBJECT : Body of a package for handling octrees.
--- AUTHOR  : (C) Copyright 2020 by Peter C. Chapin
+-- AUTHOR  : (C) Copyright 2024 by Peter Chapin
 --
 -- Please send comments or bug reports to
 --
---      Peter C. Chapin <pchapin@vtc.edu>
+--      Peter Chapin <spicacality@kelseymountain.org>
 ---------------------------------------------------------------------------
 with Ada.Numerics.Generic_Elementary_Functions;
 with Ada.Unchecked_Deallocation;

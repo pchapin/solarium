@@ -1,8 +1,4 @@
 with Constants;
-with Types;
-
-use Constants;
-use Types;
 
 package Simulator is
 

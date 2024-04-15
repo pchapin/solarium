@@ -1,11 +1,11 @@
 ---------------------------------------------------------------------------
 -- FILE    : intervals.ads
 -- SUBJECT : Specification of a package for handling dynamically ranged values in several dimensions.
--- AUTHOR  : (C) Copyright 2020 by Peter C. Chapin
+-- AUTHOR  : (C) Copyright 2024 by Peter Chapin
 --
 -- Please send comments or bug reports to
 --
---      Peter C. Chapin <pchapin@vtc.edu>
+--      Peter Chapin <spicacality@kelseymountain.org>
 ---------------------------------------------------------------------------
 
 generic

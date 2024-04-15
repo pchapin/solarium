@@ -1,11 +1,11 @@
 ---------------------------------------------------------------------------
 -- FILE    : vector3s.adb
 -- SUBJECT : Body of a package for handling three dimensional vectors.
--- AUTHOR  : (C) Copyright 2020 by Peter C. Chapin
+-- AUTHOR  : (C) Copyright 2024 by Peter Chapin
 --
 -- Please send comments or bug reports to
 --
---      Peter C. Chapin <pchapin@vtc.edu>
+--      Peter Chapin <spicacality@kelseymountain.org>
 ---------------------------------------------------------------------------
 
 package body Vector3s is

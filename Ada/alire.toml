@@ -3,10 +3,13 @@ description = "Solar system simulator"
 version = "0.1.0-dev"
 
 authors = ["Peter Chapin"]
-maintainers = ["Peter Chapin <peter@pchapin.org>"]
+maintainers = ["Peter Chapin <spicacality@kelseymountain.org>"]
 maintainers-logins = ["pchapin"]
 licenses = "Apache-2.0"
 website = ""
 tags = []
 
 executables = ["solarium"]
+
+[build-switches]
+"*".style_checks = "No"

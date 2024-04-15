@@ -1,11 +1,11 @@
 ---------------------------------------------------------------------------
 -- FILE    : solarium.adb
 -- SUBJECT : Main program of the solarium application.
--- AUTHOR  : (C) Copyright 2020s by Peter C. Chapin
+-- AUTHOR  : (C) Copyright 2024 by Peter Chapin
 --
 -- Please send comments or bug reports to
 --
---      Peter C. Chapin <pchapin@vtc.edu>
+--      Peter Chapin <spicacality@kelseymountain.org>
 ---------------------------------------------------------------------------
 with Ada.Text_IO;
 with Simulator;
@@ -41,5 +41,8 @@ begin
          Dynamics_Computers(4).Start_On_Range(7500, 10000);
       end;
       Simulator.Swap_Dynamics;
+      if Time_Step_Count rem 100 = 0 then
+         Ada.Text_IO.Put_Line("TIME STEP: " & Time_Step_Count'Image);
+      end if;
    end loop;
 end Solarium;
