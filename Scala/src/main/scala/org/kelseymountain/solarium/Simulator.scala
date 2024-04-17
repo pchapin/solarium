@@ -1,5 +1,6 @@
 package org.kelseymountain.solarium
 
+import scala.annotation.tailrec
 import scala.collection.parallel.CollectionConverters._
 
 object Simulator {
@@ -47,6 +48,15 @@ object Simulator {
     // Do it in parallel!
     //val parallelIndexRange = objects.indices.par
     //parallelIndexRange map computeObjectIDynamics
+  }
+
+  @tailrec
+  def simulate(timeSteps: Int,
+               objects  : Seq[SolarSystemObject],
+               dynamics : Seq[ObjectDynamics]): Seq[ObjectDynamics] = {
+
+    if (timeSteps == 0) dynamics
+    else simulate(timeSteps - 1, objects, dynamics)
   }
 
 }
