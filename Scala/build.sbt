@@ -1,8 +1,19 @@
-name := "Solarium"
+import Dependencies._
 
-version := "0.1"
+ThisBuild / version := "0.1.0-SNAPSHOT"
+ThisBuild / scalaVersion := "2.13.12"
+ThisBuild / scalacOptions :=
+  Seq("-encoding", "UTF-8",
+      "-feature",
+      "-deprecation",
+      "-unchecked",
+      "-Wunused:nowarn")    // Warn if the nowarn annotation doesn't actually suppress a warning.
 
-scalaVersion := "2.13.1"
+Test / logBuffered := false
 
-libraryDependencies +=
-  "org.scala-lang.modules" %% "scala-parallel-collections" % "0.2.0"
+lazy val solarium = (project in file("."))
+  .settings(
+    name := "Solarium",
+    libraryDependencies ++= solariumDeps
+  )
+

@@ -1,4 +1,4 @@
-package org.pchapin.solarium
+package org.kelseymountain.solarium
 
 import scala.collection.immutable.Vector
 import scala.collection.parallel.CollectionConverters._
