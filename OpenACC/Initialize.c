@@ -1,6 +1,6 @@
 /*! \file    Initialize.c
  *  \brief   Implementation of initialization functions.
- *  \author  Peter C. Chapin <PChapin@vtc.vsc.edu>
+ *  \author  Peter Chapin <spicacality@kelseymountain.org>
  */
 
 #include <stdlib.h>

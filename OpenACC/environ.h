@@ -33,7 +33,6 @@ other libraries.
 #define eMETROWERKS  6  // Metrowerks CodeWarrior
 #define eMICROSOFT   7  // Microsoft Visual C++
 #define eOPENWATCOM  8  // Open Watcom
-#define ePGI         9  // PGI C/C++
 
 // Choose your compiler! This file can autodetect all of the compilers mentioned above. If the
 // compiler can't be autodetected it will default to eVANILLA.
@@ -64,10 +63,6 @@ other libraries.
 
 #if defined(__WATCOMC__)
 #define eCOMPILER eOPENWATCOM
-#endif
-
-#if defined(__PGIC__)
-#define eCOMPILER ePGI
 #endif
 
 #if !defined(eCOMPILER)
@@ -107,8 +102,8 @@ other libraries.
 #define eOPSYS ePOSIX
 #endif
 
-// Assume gcc and pgi are on Unix (or at least something Unix-like).
-#if eCOMPILER == eGCC || eCOMPILER == ePGI
+// Assume gcc is on Unix (or at least something Unix-like).
+#if eCOMPILER == eGCC
 #define eOPSYS ePOSIX
 #endif
 

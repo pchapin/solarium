@@ -1,6 +1,6 @@
 /*! \file    Object.c
  *  \brief   Implementation of object data arrays.
- *  \author  Peter C. Chapin <pchapin@vtc.edu>
+ *  \author  Peter Chapin <spicacality@kelseymountain.org>
  */
 
 #include <math.h>
@@ -19,7 +19,7 @@ void time_step( )
     int object_i;
 
     // For each object...
-    #pragma acc enter data copyin(current_dynamics[0:OBJECT_COUNT])
+    #pragma acc enter data copyin(current_dynamics[0:OBJECT_COUNT], object_array[0:OBJECT_COUNT])
     #pragma acc parallel loop
     for( object_i = 0; object_i < OBJECT_COUNT; ++object_i ) {
         Vector3 total_force = { 0.0, 0.0, 0.0 };
@@ -49,12 +49,12 @@ void time_step( )
         next_dynamics[object_i].position =
             v3_add( current_dynamics[object_i].position, delta_position );
     }
+    #pragma acc exit data copyout(next_dynamics[0:OBJECT_COUNT])
 
     // Swap the dynamics arrays.
     ObjectDynamics *temp = current_dynamics;
     current_dynamics     = next_dynamics;
     next_dynamics        = temp;
-    #pragma acc exit data copyout(next_dynamics[0:OBJECT_COUNT])
 }
 
 
