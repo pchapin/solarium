@@ -47,6 +47,8 @@ The folders contain the following
   version. It suffers from repeatedly creating and joining with threads and thus incurs
   significant thread management overhead.
 
++ Rust: A Rust version of the solar system simulator.
+
 + Scala: The main Solarium application in Scala.
 
 + Serial: This version is entirely serial. It can be used as a baseline against which timings of
