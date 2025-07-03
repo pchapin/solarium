@@ -18,10 +18,6 @@
         },
         {
             "name": "Win32",
-            "includePath": [
-                "${default}",
-                "${env:PTHREAD_HOME}\\include"
-            ],
             "defines": [
                 "_DEBUG",
                 "UNICODE",

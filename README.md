@@ -5,7 +5,14 @@ This folder contains a simple solar system simulator that computes a solution fo
 problem where the inter-object interaction is the gravitational force. It is our intention for
 this program to one day be a useful application capable of realistic simulations. It is also our
 intention for this program to illustrate a variety of parallel and HPC programming technologies.
-A major goal of this work is thus educational.
+Thus, a major goal of this work is educational.
+
+The official operating system for this project is Linux, but much of the code should also work
+on macOS and on Windows using WSL (and maybe Cygwin, but that has not been extensively tested).
+Some of the subprojects use highly specialized technologies that may not be available on all
+platforms. For example, the CUDA version requires an NVIDIA GPU and the OpenCL version requires
+an OpenCL-compatible GPU. See the `README.md` files in the various folders for more information
+about the requirements for each subproject.
 
 Most of the code is in C, but some other languages are also represented.
 
@@ -59,8 +66,8 @@ Visual Studio Code is the recommended editor for this project. The `.vscode` fol
 settings that should make it easy to get started. The actual building is typically done in
 the terminal by running `make` in the appropriate folder manually.
 
-The use of Visual Studio for some subprojects is also supported. See below for details. There is
-also some support for using Eclipse/CDT in some projects, but it is not well maintained.
+There is also some support for using Eclipse/CDT on macOS in some projects, but it is not well
+maintained.
 
 ## Building
 
@@ -71,21 +78,6 @@ WSL or Cygwin (not extensively tested)).
 
 Each folder contains a `README.md` file that describes the programs in that folder and how to
 use them.
-
-## Building with Visual Studio
-
-Before Visual Studio can be used, it is necessary to install pthread4w. This is a Windows
-implementation of the POSIX threads API. It can be downloaded from
-[SourceForge](https://sourceforge.net/projects/pthreads4w/). Unzip the archive in any convenient
-location and use `nmake` to build and install the library. The default installation location is
-in a folder `PTHREADS-BUILT` as a sibling folder to where the source code is located.
-
-Add an environment variable named `PTHREADS_HOME` that points to the `PTHREADS-BUILT` folder.
-The Visual Studio project files use this environment variable to locate the pthread4w library.
-
-You can now open the Visual Studio solution file in the root folder and build the entire
-project. Each folder contains a Visual Studio project file that can be used to open just that
-folder in Visual Studio.
 
 Peter Chapin  
 spicacality@kelseymountain.org  
