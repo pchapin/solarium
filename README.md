@@ -66,9 +66,6 @@ Visual Studio Code is the recommended editor for this project. The `.vscode` fol
 settings that should make it easy to get started. The actual building is typically done in
 the terminal by running `make` in the appropriate folder manually.
 
-There is also some support for using Eclipse/CDT on macOS in some projects, but it is not well
-maintained.
-
 ## Building
 
 Most folders contain a `Makefile` that can be used to build the programs in that folder. The
